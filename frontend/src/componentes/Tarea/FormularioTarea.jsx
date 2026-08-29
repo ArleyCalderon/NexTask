@@ -1,12 +1,35 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
 
-function FormularioTarea({ onCrear }) {
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [prioridad, setPrioridad] = useState('media');
-  const [categoriaId, setCategoriaId] = useState('');
-  const [fechaVencimiento, setFechaVencimiento] = useState('');
+function FormularioTarea({
+  onCrear,
+  onActualizar,
+  tareaInicial = null,
+  onCancelar,
+}) {
+  const esEdicion = Boolean(tareaInicial);
+
+  const [titulo, setTitulo] = useState(
+    tareaInicial?.titulo || ''
+  );
+
+  const [descripcion, setDescripcion] = useState(
+    tareaInicial?.descripcion || ''
+  );
+
+  const [prioridad, setPrioridad] = useState(
+    tareaInicial?.prioridad || 'media'
+  );
+
+  const [categoriaId, setCategoriaId] = useState(
+    tareaInicial?.categoria_id || ''
+  );
+
+  const [fechaVencimiento, setFechaVencimiento] = useState(
+    tareaInicial?.fecha_vencimiento
+      ? tareaInicial.fecha_vencimiento.split('T')[0]
+      : ''
+  );
 
   const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
@@ -23,35 +46,39 @@ function FormularioTarea({ onCrear }) {
     setError('');
     setEnviando(true);
 
-    const nuevaTarea = {
+    const datosTarea = {
       titulo: titulo.trim(),
       prioridad,
+      categoria_id: categoriaId
+        ? Number(categoriaId)
+        : null,
+      descripcion: descripcion.trim() || null,
+      fecha_vencimiento: fechaVencimiento || null,
     };
 
-    if (descripcion.trim()) {
-      nuevaTarea.descripcion = descripcion.trim();
-    }
-
-    if (categoriaId) {
-      nuevaTarea.categoria_id = Number(categoriaId);
-    }
-
-    if (fechaVencimiento) {
-      nuevaTarea.fecha_vencimiento = fechaVencimiento;
-    }
-
     try {
-      await onCrear(nuevaTarea);
+      if (esEdicion) {
+        await onActualizar(
+          tareaInicial.id,
+          datosTarea
+        );
 
-      setTitulo('');
-      setDescripcion('');
-      setPrioridad('media');
-      setCategoriaId('');
-      setFechaVencimiento('');
+        onCancelar();
+      } else {
+        await onCrear(datosTarea);
+
+        setTitulo('');
+        setDescripcion('');
+        setPrioridad('media');
+        setCategoriaId('');
+        setFechaVencimiento('');
+      }
     } catch (error) {
       setError(
         error.response?.data?.error ||
-        'No se pudo crear la tarea'
+        `No se pudo ${
+          esEdicion ? 'actualizar' : 'crear'
+        } la tarea`
       );
     } finally {
       setEnviando(false);
@@ -60,13 +87,17 @@ function FormularioTarea({ onCrear }) {
 
   return (
     <form onSubmit={manejarSubmit}>
-      <h2>Nueva tarea</h2>
+      <h2>
+        {esEdicion ? 'Editar tarea' : 'Nueva tarea'}
+      </h2>
 
       <div>
-        <label htmlFor="titulo">Título</label>
+        <label htmlFor={`titulo-${tareaInicial?.id || 'nueva'}`}>
+          Título
+        </label>
 
         <input
-          id="titulo"
+          id={`titulo-${tareaInicial?.id || 'nueva'}`}
           type="text"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
@@ -76,20 +107,28 @@ function FormularioTarea({ onCrear }) {
       </div>
 
       <div>
-        <label htmlFor="descripcion">Descripción</label>
+        <label
+          htmlFor={`descripcion-${tareaInicial?.id || 'nueva'}`}
+        >
+          Descripción
+        </label>
 
         <textarea
-          id="descripcion"
+          id={`descripcion-${tareaInicial?.id || 'nueva'}`}
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
         />
       </div>
 
       <div>
-        <label htmlFor="prioridad">Prioridad</label>
+        <label
+          htmlFor={`prioridad-${tareaInicial?.id || 'nueva'}`}
+        >
+          Prioridad
+        </label>
 
         <select
-          id="prioridad"
+          id={`prioridad-${tareaInicial?.id || 'nueva'}`}
           value={prioridad}
           onChange={(e) => setPrioridad(e.target.value)}
         >
@@ -100,10 +139,14 @@ function FormularioTarea({ onCrear }) {
       </div>
 
       <div>
-        <label htmlFor="categoria">Categoría</label>
+        <label
+          htmlFor={`categoria-${tareaInicial?.id || 'nueva'}`}
+        >
+          Categoría
+        </label>
 
         <select
-          id="categoria"
+          id={`categoria-${tareaInicial?.id || 'nueva'}`}
           value={categoriaId}
           onChange={(e) => setCategoriaId(e.target.value)}
           disabled={cargandoCategorias}
@@ -126,15 +169,19 @@ function FormularioTarea({ onCrear }) {
       </div>
 
       <div>
-        <label htmlFor="fechaVencimiento">
+        <label
+          htmlFor={`fecha-${tareaInicial?.id || 'nueva'}`}
+        >
           Fecha de vencimiento
         </label>
 
         <input
-          id="fechaVencimiento"
+          id={`fecha-${tareaInicial?.id || 'nueva'}`}
           type="date"
           value={fechaVencimiento}
-          onChange={(e) => setFechaVencimiento(e.target.value)}
+          onChange={(e) =>
+            setFechaVencimiento(e.target.value)
+          }
         />
       </div>
 
@@ -145,8 +192,22 @@ function FormularioTarea({ onCrear }) {
         type="submit"
         disabled={enviando || cargandoCategorias}
       >
-        {enviando ? 'Creando...' : 'Crear tarea'}
+        {enviando
+          ? 'Guardando...'
+          : esEdicion
+            ? 'Guardar cambios'
+            : 'Crear tarea'}
       </button>
+
+      {esEdicion && (
+        <button
+          type="button"
+          onClick={onCancelar}
+          disabled={enviando}
+        >
+          Cancelar
+        </button>
+      )}
     </form>
   );
 }

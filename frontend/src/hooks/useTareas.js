@@ -43,6 +43,43 @@ const crearTarea = async (datosTarea) => {
     throw error;
   }
 };
+
+const eliminarTarea = async (id) => {
+  const tareasAnteriores = tareas;
+
+  setTareas((tareasActuales) =>
+    tareasActuales.filter((tarea) => tarea.id !== id)
+  );
+
+  try {
+    await api.delete(`/tareas/${id}`);
+  } catch (error) {
+    setTareas(tareasAnteriores);
+
+    setError(
+      error.response?.data?.error ||
+      'Error al eliminar la tarea'
+    );
+  }
+};
+
+const actualizarTarea = async (id, datosTarea) => {
+  try {
+    setError('');
+
+    await api.put(`/tareas/${id}`, datosTarea);
+
+    await cargarTareas();
+  } catch (error) {
+    setError(
+      error.response?.data?.error ||
+      'Error al actualizar la tarea'
+    );
+
+    throw error;
+  }
+};
+
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -78,6 +115,8 @@ const crearTarea = async (datosTarea) => {
     cargarTareas,
     cambiarEstadoTarea,
     crearTarea,
+    eliminarTarea,
+    actualizarTarea,
   };
 }
 

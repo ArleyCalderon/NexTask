@@ -1,4 +1,36 @@
-function ItemTarea({ tarea, onCambiarEstado }) {
+import { useState } from 'react';
+import FormularioTarea from './FormularioTarea';
+
+function ItemTarea({
+  tarea,
+  onCambiarEstado,
+  onEliminar,
+  onActualizar,
+}) {
+  const [editando, setEditando] = useState(false);
+
+  const manejarEliminar = () => {
+    const confirmar = window.confirm(
+      `¿Eliminar la tarea "${tarea.titulo}"?`
+    );
+
+    if (confirmar) {
+      onEliminar(tarea.id);
+    }
+  };
+
+  if (editando) {
+    return (
+      <article>
+        <FormularioTarea
+          tareaInicial={tarea}
+          onActualizar={onActualizar}
+          onCancelar={() => setEditando(false)}
+        />
+      </article>
+    );
+  }
+
   return (
     <article>
       <div>
@@ -8,13 +40,28 @@ function ItemTarea({ tarea, onCambiarEstado }) {
           {tarea.completada ? 'Completada' : 'Pendiente'}
         </span>
       </div>
+
       <button
         type="button"
         onClick={() => onCambiarEstado(tarea.id)}
-        >
+      >
         {tarea.completada
-            ? 'Marcar como pendiente'
-            : 'Marcar como completada'}
+          ? 'Marcar como pendiente'
+          : 'Marcar como completada'}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => setEditando(true)}
+      >
+        Editar
+      </button>
+
+      <button
+        type="button"
+        onClick={manejarEliminar}
+      >
+        Eliminar
       </button>
 
       {tarea.descripcion && (
@@ -22,10 +69,13 @@ function ItemTarea({ tarea, onCambiarEstado }) {
       )}
 
       <div>
-        <span>Prioridad: {tarea.prioridad}</span>
+        <span>
+          Prioridad: {tarea.prioridad}
+        </span>
 
         {tarea.categoria_nombre && (
           <span>
+            {' '}
             Categoría: {tarea.categoria_nombre}
           </span>
         )}
@@ -34,7 +84,9 @@ function ItemTarea({ tarea, onCambiarEstado }) {
       {tarea.fecha_vencimiento && (
         <p>
           Vence:{' '}
-          {new Date(tarea.fecha_vencimiento).toLocaleDateString()}
+          {new Date(
+            tarea.fecha_vencimiento
+          ).toLocaleDateString()}
         </p>
       )}
 

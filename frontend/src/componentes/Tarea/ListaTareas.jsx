@@ -3,13 +3,15 @@ import ItemTarea from './ItemTarea';
 import FormularioTarea from './FormularioTarea';
 
 function ListaTareas() {
-    const {
-      tareas,
-      cargando,
-      error,
-      cambiarEstadoTarea,
-      crearTarea,
-    } = useTareas();
+  const {
+    tareas,
+    cargando,
+    error,
+    cambiarEstadoTarea,
+    crearTarea,
+    eliminarTarea,
+    actualizarTarea,
+  } = useTareas();
 
   if (cargando) {
     return <p>Cargando tareas...</p>;
@@ -28,11 +30,13 @@ function ListaTareas() {
       ) : (
         <div>
           {tareas.map((tarea) => (
-            <ItemTarea
-                key={tarea.id}
-                tarea={tarea}
-                onCambiarEstado={cambiarEstadoTarea}
-            />
+          <ItemTarea
+            key={tarea.id}
+            tarea={tarea}
+            onCambiarEstado={cambiarEstadoTarea}
+            onEliminar={eliminarTarea}
+            onActualizar={actualizarTarea}
+          />
           ))}
         </div>
       )}
