@@ -24,6 +24,133 @@ const validarCategoriaDelUsuario = async (categoriaId, usuarioId) => {
   }
 };
 
+const validarTareaYEtiquetaDelUsuario = async (
+  usuarioId,
+  tareaId,
+  etiquetaId
+) => {
+  const resultado = await pool.query(
+    `
+      SELECT
+        EXISTS (
+          SELECT 1
+          FROM tareas
+          WHERE id = $1
+            AND usuario_id = $3
+        ) AS tarea_existe,
+
+        EXISTS (
+          SELECT 1
+          FROM etiquetas
+          WHERE id = $2
+            AND usuario_id = $3
+        ) AS etiqueta_existe
+    `,
+    [
+      tareaId,
+      etiquetaId,
+      usuarioId
+    ]
+  );
+
+  const {
+    tarea_existe,
+    etiqueta_existe
+  } = resultado.rows[0];
+
+  if (!tarea_existe) {
+    throw new AppError(
+      'La tarea no existe o no pertenece al usuario',
+      404
+    );
+  }
+
+  if (!etiqueta_existe) {
+    throw new AppError(
+      'La etiqueta no existe o no pertenece al usuario',
+      404
+    );
+  }
+};
+
+const agregarEtiquetaATarea = async (
+  usuarioId,
+  tareaId,
+  etiquetaId
+) => {
+  await validarTareaYEtiquetaDelUsuario(
+    usuarioId,
+    tareaId,
+    etiquetaId
+  );
+
+  const resultado = await pool.query(
+    `
+      INSERT INTO tarea_etiquetas (
+        tarea_id,
+        etiqueta_id,
+        usuario_id
+      )
+      VALUES ($1, $2, $3)
+      ON CONFLICT (tarea_id, etiqueta_id)
+      DO NOTHING
+      RETURNING
+        tarea_id,
+        etiqueta_id,
+        usuario_id,
+        creado_en
+    `,
+    [
+      tareaId,
+      etiquetaId,
+      usuarioId
+    ]
+  );
+
+  if (resultado.rowCount === 0) {
+    throw new AppError(
+      'La tarea ya tiene asociada esa etiqueta',
+      409
+    );
+  }
+
+  return resultado.rows[0];
+};
+
+const quitarEtiquetaDeTarea = async (
+  usuarioId,
+  tareaId,
+  etiquetaId
+) => {
+  await validarTareaYEtiquetaDelUsuario(
+    usuarioId,
+    tareaId,
+    etiquetaId
+  );
+
+  const resultado = await pool.query(
+    `
+      DELETE FROM tarea_etiquetas
+      WHERE tarea_id = $1
+        AND etiqueta_id = $2
+        AND usuario_id = $3
+      RETURNING tarea_id
+    `,
+    [
+      tareaId,
+      etiquetaId,
+      usuarioId
+    ]
+  );
+
+  if (resultado.rowCount === 0) {
+    throw new AppError(
+      'La tarea no tiene asociada esa etiqueta',
+      404
+    );
+  }
+};
+
 const crearTarea = async (usuarioId, datos) => {
   const {
     titulo,
@@ -195,7 +322,27 @@ const obtenerTareas = async (usuarioId, filtros = {}) => {
         t.creado_en,
         t.actualizado_en,
         t.completada_en,
-        c.nombre AS categoria_nombre
+        c.nombre AS categoria_nombre,
+        c.color AS categoria_color,
+
+        COALESCE(
+          (
+            SELECT json_agg(
+              json_build_object(
+                'id', e.id,
+                'nombre', e.nombre
+              )
+              ORDER BY e.nombre
+            )
+            FROM tarea_etiquetas te
+            JOIN etiquetas e
+              ON e.id = te.etiqueta_id
+              AND e.usuario_id = te.usuario_id
+            WHERE te.tarea_id = t.id
+              AND te.usuario_id = t.usuario_id
+          ),
+          '[]'::json
+        ) AS etiquetas
       FROM tareas t
       LEFT JOIN categorias c
         ON c.id = t.categoria_id
@@ -338,5 +485,7 @@ module.exports = {
   obtenerTareas,
   actualizarTarea,
   eliminarTarea,
-  cambiarEstadoCompletada
+  cambiarEstadoCompletada,
+  agregarEtiquetaATarea,
+  quitarEtiquetaDeTarea
 };

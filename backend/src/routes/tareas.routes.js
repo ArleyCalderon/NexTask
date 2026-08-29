@@ -4,7 +4,9 @@ const tareasController = require('../controllers/tareas.controller');
 const {
   crearTareaSchema,
   actualizarTareaSchema,
-  filtrosTareasSchema
+  filtrosTareasSchema,
+  tareaIdSchema,
+  tareaEtiquetaParamsSchema
 } = require('../validators/tareas.validator');
 
 const autenticar = require('../middlewares/auth.middleware');
@@ -23,12 +25,14 @@ router.get(
 
 router.put(
   '/:id',
+  validar(tareaIdSchema, 'params'),
   validar(actualizarTareaSchema),
   tareasController.actualizarTarea
 );
 
 router.delete(
   '/:id',
+  validar(tareaIdSchema, 'params'),
   tareasController.eliminarTarea
 );
 
@@ -41,7 +45,20 @@ router.post(
 
 router.patch(
   '/:id/completar',
+  validar(tareaIdSchema, 'params'),
   tareasController.cambiarEstadoCompletada
+);
+
+router.post(
+  '/:id/etiquetas/:etiquetaId',
+  validar(tareaEtiquetaParamsSchema, 'params'),
+  tareasController.agregarEtiquetaATarea
+);
+
+router.delete(
+  '/:id/etiquetas/:etiquetaId',
+  validar(tareaEtiquetaParamsSchema, 'params'),
+  tareasController.quitarEtiquetaDeTarea
 );
 
 module.exports = router;

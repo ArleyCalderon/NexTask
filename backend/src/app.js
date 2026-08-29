@@ -67,17 +67,24 @@ app.use((req, res) => {
 
 
 app.use((error, req, res, next) => {
-  const statusCode = error.statusCode || 500;
+  const statusCode =
+    error.statusCode ||
+    error.status ||
+    500;
 
   if (statusCode >= 500) {
     console.error(error);
   }
 
-  res.status(statusCode).json({
-    error:
-      statusCode === 500
+  const mensaje =
+    error.type === 'entity.parse.failed'
+      ? 'El JSON enviado no tiene un formato válido'
+      : statusCode === 500
         ? 'Error interno del servidor'
-        : error.message,
+        : error.message;
+
+  res.status(statusCode).json({
+    error: mensaje,
 
     ...(error.details && {
       detalles: error.details,

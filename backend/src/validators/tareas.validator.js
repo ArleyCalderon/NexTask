@@ -1,21 +1,36 @@
 const { z } = require('zod');
 
+const esFechaValida = (valor) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+    return false;
+  }
+
+  const fecha = new Date(`${valor}T00:00:00Z`);
+
+  return (
+    !Number.isNaN(fecha.getTime()) &&
+    fecha.toISOString().slice(0, 10) === valor
+  );
+};
+
+
 const prioridadSchema = z.enum(['baja', 'media', 'alta'], {
   message: 'La prioridad debe ser baja, media o alta'
 });
 
 const fechaSchema = z
   .string()
-  .regex(
-    /^\d{4}-\d{2}-\d{2}$/,
-    'La fecha debe tener formato YYYY-MM-DD'
+  .refine(
+    esFechaValida,
+    'La fecha debe ser válida y tener formato YYYY-MM-DD'
   );
 
 const crearTareaSchema = z.object({
   titulo: z
     .string()
     .trim()
-    .min(1, 'El título es obligatorio'),
+    .min(1, 'El título es obligatorio')
+    .max(200, 'El título no puede superar 200 caracteres'),
 
   descripcion: z
     .string()
@@ -39,11 +54,12 @@ const crearTareaSchema = z.object({
 
 const actualizarTareaSchema = z
   .object({
-    titulo: z
-      .string()
-      .trim()
-      .min(1, 'El título no puede estar vacío')
-      .optional(),
+  titulo: z
+    .string()
+    .trim()
+    .min(1, 'El título no puede estar vacío')
+    .max(200, 'El título no puede superar 200 caracteres')
+    .optional(),
 
     descripcion: z
       .string()
@@ -97,10 +113,32 @@ const filtrosTareasSchema = z.object({
 
   fecha_vencimiento: z
     .string()
-    .regex(
-      /^\d{4}-\d{2}-\d{2},\d{4}-\d{2}-\d{2}$/,
-      'La fecha de vencimiento debe tener formato YYYY-MM-DD,YYYY-MM-DD'
-    )
+    .superRefine((valor, ctx) => {
+      const fechas = valor.split(',');
+
+      if (
+        fechas.length !== 2 ||
+        !fechas.every(esFechaValida)
+      ) {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'La fecha de vencimiento debe tener dos fechas válidas YYYY-MM-DD,YYYY-MM-DD'
+        });
+
+        return;
+      }
+
+      const [desde, hasta] = fechas;
+
+      if (desde > hasta) {
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'La fecha inicial no puede ser posterior a la fecha final'
+        });
+      }
+    })
     .optional(),
 
   ordenar: z
@@ -117,8 +155,26 @@ const filtrosTareasSchema = z.object({
     .optional()
 });
 
+const tareaIdSchema = z.object({
+  id: z
+    .string()
+    .regex(/^\d+$/, 'El ID de la tarea debe ser válido')
+});
+
+const tareaEtiquetaParamsSchema = z.object({
+  id: z
+    .string()
+    .regex(/^\d+$/, 'El ID de la tarea debe ser válido'),
+
+  etiquetaId: z
+    .string()
+    .regex(/^\d+$/, 'El ID de la etiqueta debe ser válido')
+});
+
 module.exports = {
   crearTareaSchema,
   actualizarTareaSchema,
-  filtrosTareasSchema
+  filtrosTareasSchema,
+  tareaIdSchema,
+  tareaEtiquetaParamsSchema
 };
