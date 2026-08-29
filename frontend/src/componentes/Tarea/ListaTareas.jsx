@@ -1,9 +1,15 @@
+import { useState } from 'react';
+
 import useTareas from '../../hooks/useTareas';
 import useEtiquetas from '../../hooks/useEtiquetas';
+
 import ItemTarea from './ItemTarea';
 import FormularioTarea from './FormularioTarea';
+import FiltroTareas from './FiltroTareas';
 
 function ListaTareas() {
+  const [filtros, setFiltros] = useState({});
+
   const {
     tareas,
     cargando,
@@ -14,21 +20,13 @@ function ListaTareas() {
     actualizarTarea,
     agregarEtiquetaTarea,
     quitarEtiquetaTarea,
-  } = useTareas();
+  } = useTareas(filtros);
 
   const {
     etiquetas,
     cargandoEtiquetas,
     errorEtiquetas,
   } = useEtiquetas();
-
-  if (cargando) {
-    return <p>Cargando tareas...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
 
   return (
     <div>
@@ -38,12 +36,24 @@ function ListaTareas() {
         onCrear={crearTarea}
       />
 
+      <FiltroTareas
+        onFiltrar={setFiltros}
+        etiquetasDisponibles={etiquetas}
+        cargandoEtiquetas={cargandoEtiquetas}
+      />
+
       {errorEtiquetas && (
         <p>{errorEtiquetas}</p>
       )}
 
-      {tareas.length === 0 ? (
-        <p>No tienes tareas todavía.</p>
+      {error && (
+        <p>{error}</p>
+      )}
+
+      {cargando ? (
+        <p>Actualizando tareas...</p>
+      ) : tareas.length === 0 ? (
+        <p>No se encontraron tareas.</p>
       ) : (
         <div>
           {tareas.map((tarea) => (

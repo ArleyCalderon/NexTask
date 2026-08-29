@@ -1,7 +1,12 @@
-import { useEffect, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+
 import api from '../servicios/api';
 
-function useTareas() {
+function useTareas(filtros = {}) {
 
 const cambiarEstadoTarea = async (id) => {
   const tareasAnteriores = tareas;
@@ -122,29 +127,31 @@ const quitarEtiquetaTarea = async (tareaId, etiquetaId) => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
 
-  const cargarTareas = async () => {
-    try {
-      setCargando(true);
-      setError('');
+  const cargarTareas = useCallback(async () => {
+  try {
+    setCargando(true);
+    setError('');
 
-      const respuesta = await api.get('/tareas');
+    const respuesta = await api.get('/tareas', {
+      params: filtros,
+    });
 
-      setTareas(respuesta.data.tareas);
-    } catch (error) {
-      console.error(error);
+    setTareas(respuesta.data.tareas);
+  } catch (error) {
+    console.error(error);
 
-      setError(
-        error.response?.data?.error ||
-        'Error al cargar las tareas'
-      );
-    } finally {
-      setCargando(false);
-    }
-  };
+    setError(
+      error.response?.data?.error ||
+      'Error al cargar las tareas'
+    );
+  } finally {
+    setCargando(false);
+  }
+}, [filtros]);
 
-  useEffect(() => {
-    cargarTareas();
-  }, []);
+useEffect(() => {
+  cargarTareas();
+}, [cargarTareas]);
 
   return {
     tareas,
