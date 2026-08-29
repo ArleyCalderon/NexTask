@@ -128,7 +128,7 @@ WITH datos_tareas (
     VALUES
 
     -- -----------------------------------------------------
-    -- Usuario Demo
+    -- Arley Calderón
     -- -----------------------------------------------------
     (
         'arley@nextask.local',
