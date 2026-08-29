@@ -33,8 +33,8 @@ INSERT INTO usuarios (
 )
 VALUES
 (
-    'Usuario Demo',
-    'demo@nextask.local',
+    'Arley Calderón',
+    'arley@nextask.local',
     '$2b$12$fBzKtauExKgsT0GVJ/NLkufZNuH1ggIRvPOftew6nn0IH5hemrfxe',
     NOW() - INTERVAL '2 hours',
     NOW() - INTERVAL '14 months'
@@ -64,9 +64,9 @@ SELECT u.id, datos.nombre, datos.color
 FROM usuarios u
 JOIN (
     VALUES
-        ('demo@nextask.local',   'Trabajo',    '#2563EB'),
-        ('demo@nextask.local',   'Personal',   '#16A34A'),
-        ('demo@nextask.local',   'Estudio',    '#9333EA'),
+        ('arley@nextask.local',   'Trabajo',    '#2563EB'),
+        ('arley@nextask.local',   'Personal',   '#16A34A'),
+        ('arley@nextask.local',   'Estudio',    '#9333EA'),
 
         ('ana@nextask.local',    'Marketing',  '#DB2777'),
         ('ana@nextask.local',    'Personal',   '#16A34A'),
@@ -88,11 +88,11 @@ SELECT u.id, datos.nombre
 FROM usuarios u
 JOIN (
     VALUES
-        ('demo@nextask.local',   'urgente'),
-        ('demo@nextask.local',   'backend'),
-        ('demo@nextask.local',   'frontend'),
-        ('demo@nextask.local',   'reunión'),
-        ('demo@nextask.local',   'estudio'),
+        ('arley@nextask.local',   'urgente'),
+        ('arley@nextask.local',   'backend'),
+        ('arley@nextask.local',   'frontend'),
+        ('arley@nextask.local',   'reunión'),
+        ('arley@nextask.local',   'estudio'),
 
         ('ana@nextask.local',    'urgente'),
         ('ana@nextask.local',    'cliente'),
@@ -131,7 +131,7 @@ WITH datos_tareas (
     -- Usuario Demo
     -- -----------------------------------------------------
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Preparar sustentación técnica',
         'Repasar arquitectura, seguridad y decisiones de diseño.',
@@ -142,7 +142,7 @@ WITH datos_tareas (
         NULL::TIMESTAMPTZ
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Documentar API',
         'Completar ejemplos de request y response de los endpoints.',
@@ -153,7 +153,7 @@ WITH datos_tareas (
         NULL::TIMESTAMPTZ
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Corregir filtro de prioridades',
         'Validar combinación de prioridad y estado de completado.',
@@ -164,7 +164,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '5 days' + INTERVAL '16 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Diseñar esquema PostgreSQL',
         'Definir relaciones, constraints e índices.',
@@ -175,7 +175,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '8 days' + INTERVAL '19 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Actualizar dependencias',
         'Revisar librerías principales del backend.',
@@ -186,7 +186,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '13 days' + INTERVAL '11 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Estudio',
         'Leer documentación de React Router',
         'Revisar navegación y rutas protegidas.',
@@ -197,7 +197,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '19 days' + INTERVAL '21 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Personal',
         'Revisar tareas personales',
         'Organizar pendientes de la semana.',
@@ -208,7 +208,7 @@ WITH datos_tareas (
         NULL::TIMESTAMPTZ
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Preparar retrospectiva',
         'Registrar aprendizajes del sprint.',
@@ -219,7 +219,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '27 days' + INTERVAL '17 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         NULL,
         'Organizar archivos del proyecto',
         'Eliminar archivos temporales y ordenar documentación.',
@@ -230,7 +230,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '34 days' + INTERVAL '12 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Optimizar consultas SQL',
         'Revisar índices y planes de ejecución.',
@@ -241,7 +241,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '43 days' + INTERVAL '21 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Personal',
         'Actualizar portafolio',
         'Agregar proyectos recientes.',
@@ -252,7 +252,7 @@ WITH datos_tareas (
         NULL::TIMESTAMPTZ
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Estudio',
         'Curso de seguridad web',
         'Repasar autenticación, autorización y OWASP.',
@@ -263,7 +263,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '67 days' + INTERVAL '22 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Refactorizar módulo de autenticación',
         'Separar responsabilidades del servicio de autenticación.',
@@ -274,7 +274,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '117 days' + INTERVAL '13 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Probar despliegue en staging',
         'Validar variables de entorno y conectividad.',
@@ -285,7 +285,7 @@ WITH datos_tareas (
         date_trunc('day', NOW()) - INTERVAL '178 days' + INTERVAL '18 hours'
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Trabajo',
         'Revisar accesibilidad',
         'Verificar navegación por teclado y contraste.',
@@ -296,7 +296,7 @@ WITH datos_tareas (
         NULL::TIMESTAMPTZ
     ),
     (
-        'demo@nextask.local',
+        'arley@nextask.local',
         'Personal',
         'Planificar versión anual',
         'Organizar objetivos y entregables del año.',
@@ -572,18 +572,18 @@ LEFT JOIN categorias c
 
 WITH relaciones (email, titulo, etiqueta) AS (
     VALUES
-        ('demo@nextask.local',   'Preparar sustentación técnica',      'urgente'),
-        ('demo@nextask.local',   'Preparar sustentación técnica',      'estudio'),
-        ('demo@nextask.local',   'Documentar API',                     'backend'),
-        ('demo@nextask.local',   'Corregir filtro de prioridades',     'backend'),
-        ('demo@nextask.local',   'Diseñar esquema PostgreSQL',         'backend'),
-        ('demo@nextask.local',   'Leer documentación de React Router', 'frontend'),
-        ('demo@nextask.local',   'Leer documentación de React Router', 'estudio'),
-        ('demo@nextask.local',   'Preparar retrospectiva',             'reunión'),
-        ('demo@nextask.local',   'Optimizar consultas SQL',            'backend'),
-        ('demo@nextask.local',   'Curso de seguridad web',             'estudio'),
-        ('demo@nextask.local',   'Refactorizar módulo de autenticación','backend'),
-        ('demo@nextask.local',   'Probar despliegue en staging',       'backend'),
+        ('arley@nextask.local',   'Preparar sustentación técnica',      'urgente'),
+        ('arley@nextask.local',   'Preparar sustentación técnica',      'estudio'),
+        ('arley@nextask.local',   'Documentar API',                     'backend'),
+        ('arley@nextask.local',   'Corregir filtro de prioridades',     'backend'),
+        ('arley@nextask.local',   'Diseñar esquema PostgreSQL',         'backend'),
+        ('arley@nextask.local',   'Leer documentación de React Router', 'frontend'),
+        ('arley@nextask.local',   'Leer documentación de React Router', 'estudio'),
+        ('arley@nextask.local',   'Preparar retrospectiva',             'reunión'),
+        ('arley@nextask.local',   'Optimizar consultas SQL',            'backend'),
+        ('arley@nextask.local',   'Curso de seguridad web',             'estudio'),
+        ('arley@nextask.local',   'Refactorizar módulo de autenticación','backend'),
+        ('arley@nextask.local',   'Probar despliegue en staging',       'backend'),
 
         ('ana@nextask.local',    'Crear campaña de lanzamiento',       'campaña'),
         ('ana@nextask.local',    'Crear campaña de lanzamiento',       'urgente'),
