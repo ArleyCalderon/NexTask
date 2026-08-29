@@ -22,4 +22,23 @@ api.interceptors.request.use(
   }
 );
 
+api.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    const status = error.response?.status;
+    const token = localStorage.getItem('token');
+
+    if (status === 401 && token) {
+      localStorage.removeItem('token');
+
+      window.dispatchEvent(
+        new Event('sesion-expirada')
+      );
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default api;

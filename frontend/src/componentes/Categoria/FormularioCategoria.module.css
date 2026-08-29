@@ -1,0 +1,140 @@
+.formulario {
+  padding: 24px;
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.encabezado {
+  margin-bottom: 20px;
+}
+
+.encabezado h2 {
+  margin-bottom: 4px;
+  font-size: 19px;
+}
+
+.encabezado p {
+  color: var(--color-text-soft);
+  font-size: 13px;
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 16px;
+}
+
+.campoNombre,
+.campoColor {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.campoNombre label,
+.campoColor label {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.campoNombre input {
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  outline: none;
+}
+
+.campoNombre input:focus {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.selectorColor {
+  min-height: 42px;
+  padding: 5px 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  background: white;
+}
+
+.selectorColor input {
+  width: 34px;
+  height: 28px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.selectorColor span {
+  color: var(--color-text-soft);
+
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.acciones {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.acciones button {
+  padding: 10px 16px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.guardar {
+  border: none;
+
+  background: var(--color-primary);
+  color: white;
+}
+
+.guardar:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.cancelar {
+  border: 1px solid var(--color-border);
+
+  background: white;
+  color: var(--color-text);
+}
+
+.acciones button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 650px) {
+  .campos {
+    grid-template-columns: 1fr;
+  }
+}

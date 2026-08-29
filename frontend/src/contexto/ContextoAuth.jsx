@@ -7,6 +7,28 @@ export function ProveedorAuth({ children }) {
   const [usuario, setUsuario] = useState(null);
   const [cargando, setCargando] = useState(true);
 
+  // Escucha cuando cualquier petición detecta
+  // que la sesión dejó de ser válida.
+  useEffect(() => {
+    const manejarSesionExpirada = () => {
+      setUsuario(null);
+    };
+
+    window.addEventListener(
+      'sesion-expirada',
+      manejarSesionExpirada
+    );
+
+    return () => {
+      window.removeEventListener(
+        'sesion-expirada',
+        manejarSesionExpirada
+      );
+    };
+  }, []);
+
+  // Comprueba si existe una sesión válida
+  // cuando la aplicación se carga.
   useEffect(() => {
     const cargarUsuario = async () => {
       const token = localStorage.getItem('token');
@@ -18,6 +40,7 @@ export function ProveedorAuth({ children }) {
 
       try {
         const respuesta = await api.get('/auth/perfil');
+
         setUsuario(respuesta.data.usuario);
       } catch (error) {
         localStorage.removeItem('token');
@@ -44,20 +67,27 @@ export function ProveedorAuth({ children }) {
     return respuesta.data;
   };
 
-const registro = async (nombre, email, password) => {
-  const respuesta = await api.post('/auth/registro', {
+  const registro = async (
     nombre,
     email,
-    password,
-  });
+    password
+  ) => {
+    const respuesta = await api.post(
+      '/auth/registro',
+      {
+        nombre,
+        email,
+        password,
+      }
+    );
 
-  const { token, usuario } = respuesta.data;
+    const { token, usuario } = respuesta.data;
 
-  localStorage.setItem('token', token);
-  setUsuario(usuario);
+    localStorage.setItem('token', token);
+    setUsuario(usuario);
 
-  return respuesta.data;
-};
+    return respuesta.data;
+  };
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -66,13 +96,13 @@ const registro = async (nombre, email, password) => {
 
   return (
     <ContextoAuth.Provider
-        value={{
+      value={{
         usuario,
         cargando,
         login,
         registro,
         logout,
-        }}
+      }}
     >
       {children}
     </ContextoAuth.Provider>

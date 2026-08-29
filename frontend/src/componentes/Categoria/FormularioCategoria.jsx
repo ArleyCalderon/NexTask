@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MensajeError from '../Comunes/MensajeError';
+import estilos from './FormularioCategoria.module.css';
 
 function FormularioCategoria({
   onCrear,
@@ -58,14 +59,26 @@ function FormularioCategoria({
   };
 
   return (
-    <form onSubmit={manejarSubmit}>
+  <form
+    onSubmit={manejarSubmit}
+    className={estilos.formulario}
+  >
+    <div className={estilos.encabezado}>
       <h2>
         {esEdicion
           ? 'Editar categoría'
           : 'Nueva categoría'}
       </h2>
 
-      <div>
+      <p>
+        {esEdicion
+          ? 'Modifica el nombre o color de la categoría.'
+          : 'Crea un grupo para organizar tus tareas.'}
+      </p>
+    </div>
+
+    <div className={estilos.campos}>
+      <div className={estilos.campoNombre}>
         <label
           htmlFor={`nombreCategoria-${categoriaInicial?.id || 'nueva'}`}
         >
@@ -76,30 +89,53 @@ function FormularioCategoria({
           id={`nombreCategoria-${categoriaInicial?.id || 'nueva'}`}
           type="text"
           value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          onChange={(e) =>
+            setNombre(e.target.value)
+          }
+          placeholder="Ej. Universidad"
           required
         />
       </div>
 
-      <div>
+      <div className={estilos.campoColor}>
         <label
           htmlFor={`colorCategoria-${categoriaInicial?.id || 'nueva'}`}
         >
           Color
         </label>
 
-        <input
-          id={`colorCategoria-${categoriaInicial?.id || 'nueva'}`}
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-      </div>
+        <div className={estilos.selectorColor}>
+          <input
+            id={`colorCategoria-${categoriaInicial?.id || 'nueva'}`}
+            type="color"
+            value={color}
+            onChange={(e) =>
+              setColor(e.target.value)
+            }
+          />
 
-      <MensajeError mensaje={error} />
+          <span>{color}</span>
+        </div>
+      </div>
+    </div>
+
+    <MensajeError mensaje={error} />
+
+    <div className={estilos.acciones}>
+      {esEdicion && (
+        <button
+          type="button"
+          className={estilos.cancelar}
+          onClick={onCancelar}
+          disabled={enviando}
+        >
+          Cancelar
+        </button>
+      )}
 
       <button
         type="submit"
+        className={estilos.guardar}
         disabled={enviando}
       >
         {enviando
@@ -108,18 +144,9 @@ function FormularioCategoria({
             ? 'Guardar cambios'
             : 'Crear categoría'}
       </button>
-
-      {esEdicion && (
-        <button
-          type="button"
-          onClick={onCancelar}
-          disabled={enviando}
-        >
-          Cancelar
-        </button>
-      )}
-    </form>
-  );
+    </div>
+  </form>
+);
 }
 
 export default FormularioCategoria;

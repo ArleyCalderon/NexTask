@@ -1,7 +1,10 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { ContextoAuth } from '../../contexto/ContextoAuth';
 import MensajeError from '../Comunes/MensajeError';
+
+import estilos from './Auth.module.css';
 
 function FormularioLogin() {
   const [email, setEmail] = useState('');
@@ -33,39 +36,89 @@ function FormularioLogin() {
   };
 
   return (
-    <div>
-      <h2>Iniciar sesión</h2>
+    <main className={estilos.pagina}>
+      <section className={estilos.tarjeta}>
+        <div className={estilos.marca}>
+          <div className={estilos.logo}>
+            N
+          </div>
 
-      <form onSubmit={manejarSubmit}>
-        <div>
-          <label htmlFor="email">Correo</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div>
+            <h1>NexTask</h1>
+            <span>Gestor de tareas</span>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="password">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className={estilos.encabezado}>
+          <h2>Bienvenido de nuevo</h2>
+
+          <p>
+            Inicia sesión para continuar organizando
+            tus actividades.
+          </p>
         </div>
 
-        <MensajeError mensaje={error} />
+        <form
+          onSubmit={manejarSubmit}
+          className={estilos.formulario}
+        >
+          <div className={estilos.campo}>
+            <label htmlFor="email">
+              Correo electrónico
+            </label>
 
-        <button type="submit" disabled={enviando}>
-          {enviando ? 'Ingresando...' : 'Ingresar'}
-        </button>
-      </form>
-    </div>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              placeholder="nombre@correo.com"
+              autoComplete="email"
+              required
+            />
+          </div>
+
+          <div className={estilos.campo}>
+            <label htmlFor="password">
+              Contraseña
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              placeholder="Ingresa tu contraseña"
+              autoComplete="current-password"
+              required
+            />
+          </div>
+
+          <MensajeError mensaje={error} />
+
+          <button
+            type="submit"
+            className={estilos.botonPrincipal}
+            disabled={enviando}
+          >
+            {enviando
+              ? 'Ingresando...'
+              : 'Iniciar sesión'}
+          </button>
+        </form>
+
+        <p className={estilos.enlaceInferior}>
+          ¿No tienes una cuenta?{' '}
+          <Link to="/registro">
+            Crear cuenta
+          </Link>
+        </p>
+      </section>
+    </main>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MensajeError from '../Comunes/MensajeError';
+import estilos from './FormularioEtiqueta.module.css';
 
 function FormularioEtiqueta({ onCrear }) {
   const [nombre, setNombre] = useState('');
@@ -33,11 +34,21 @@ function FormularioEtiqueta({ onCrear }) {
     }
   };
 
-  return (
-    <form onSubmit={manejarSubmit}>
+return (
+  <form
+    onSubmit={manejarSubmit}
+    className={estilos.formulario}
+  >
+    <div>
       <h2>Nueva etiqueta</h2>
 
-      <div>
+      <p>
+        Crea una etiqueta para clasificar tus tareas.
+      </p>
+    </div>
+
+    <div className={estilos.contenido}>
+      <div className={estilos.campo}>
         <label htmlFor="nombreEtiqueta">
           Nombre
         </label>
@@ -46,12 +57,13 @@ function FormularioEtiqueta({ onCrear }) {
           id="nombreEtiqueta"
           type="text"
           value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          onChange={(e) =>
+            setNombre(e.target.value)
+          }
+          placeholder="Ej. importante"
           required
         />
       </div>
-
-      <MensajeError mensaje={error} />
 
       <button
         type="submit"
@@ -61,8 +73,11 @@ function FormularioEtiqueta({ onCrear }) {
           ? 'Creando...'
           : 'Crear etiqueta'}
       </button>
-    </form>
-  );
+    </div>
+
+    <MensajeError mensaje={error} />
+  </form>
+);
 }
 
 export default FormularioEtiqueta;

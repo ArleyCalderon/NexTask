@@ -1,7 +1,10 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { ContextoAuth } from '../../contexto/ContextoAuth';
 import MensajeError from '../Comunes/MensajeError';
+
+import estilos from './Auth.module.css';
 
 function FormularioRegistro() {
   const [nombre, setNombre] = useState('');
@@ -21,6 +24,7 @@ function FormularioRegistro() {
 
     try {
       await registro(nombre, email, password);
+
       navigate('/tareas');
     } catch (error) {
       setError(
@@ -33,50 +37,107 @@ function FormularioRegistro() {
   };
 
   return (
-    <div>
-      <h2>Crear cuenta</h2>
+    <main className={estilos.pagina}>
+      <section className={estilos.tarjeta}>
+        <div className={estilos.marca}>
+          <div className={estilos.logo}>
+            N
+          </div>
 
-      <form onSubmit={manejarSubmit}>
-        <div>
-          <label htmlFor="nombre">Nombre</label>
-          <input
-            id="nombre"
-            type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            required
-          />
+          <div>
+            <h1>NexTask</h1>
+            <span>Gestor de tareas</span>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="email">Correo</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className={estilos.encabezado}>
+          <h2>Crea tu cuenta</h2>
+
+          <p>
+            Empieza a organizar tus tareas,
+            categorías y etiquetas.
+          </p>
         </div>
 
-        <div>
-          <label htmlFor="password">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <form
+          onSubmit={manejarSubmit}
+          className={estilos.formulario}
+        >
+          <div className={estilos.campo}>
+            <label htmlFor="nombre">
+              Nombre
+            </label>
 
-        <MensajeError mensaje={error} />
+            <input
+              id="nombre"
+              type="text"
+              value={nombre}
+              onChange={(e) =>
+                setNombre(e.target.value)
+              }
+              placeholder="Tu nombre"
+              autoComplete="name"
+              required
+            />
+          </div>
 
-        <button type="submit" disabled={enviando}>
-          {enviando ? 'Creando cuenta...' : 'Registrarse'}
-        </button>
-      </form>
-    </div>
+          <div className={estilos.campo}>
+            <label htmlFor="email">
+              Correo electrónico
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              placeholder="nombre@correo.com"
+              autoComplete="email"
+              required
+            />
+          </div>
+
+          <div className={estilos.campo}>
+            <label htmlFor="password">
+              Contraseña
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              placeholder="Crea una contraseña"
+              autoComplete="new-password"
+              required
+            />
+          </div>
+
+          <MensajeError mensaje={error} />
+
+          <button
+            type="submit"
+            className={estilos.botonPrincipal}
+            disabled={enviando}
+          >
+            {enviando
+              ? 'Creando cuenta...'
+              : 'Crear cuenta'}
+          </button>
+        </form>
+
+        <p className={estilos.enlaceInferior}>
+          ¿Ya tienes una cuenta?{' '}
+          <Link to="/login">
+            Iniciar sesión
+          </Link>
+        </p>
+      </section>
+    </main>
   );
 }
 
