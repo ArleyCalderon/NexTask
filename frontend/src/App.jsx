@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { ContextoAuth } from './contexto/ContextoAuth';
 import FormularioRegistro from './componentes/Auth/FormularioRegistro';
 import ListaTareas from './componentes/Tarea/ListaTareas';
+import ListaCategorias from './componentes/Categoria/ListaCategorias';
 
 function App() {
 
@@ -22,10 +23,14 @@ function App() {
         </>
       ) : (
         <>
-          <Link to="/tareas">Tareas</Link>
-          {' | '}
-          <button onClick={logout}>Cerrar sesión</button>
-        </>
+        <Link to="/tareas">Tareas</Link>
+        {' | '}
+        <Link to="/categorias">Categorías</Link>
+        {' | '}
+        <button onClick={logout}>
+          Cerrar sesión
+        </button>
+      </>
       )}
     </nav>
 
@@ -48,6 +53,16 @@ function App() {
           </RutaProtegida>
         }
       />
+
+      <Route
+        path="/categorias"
+        element={
+          <RutaProtegida>
+            <ListaCategorias />
+          </RutaProtegida>
+        }
+      />
+
       </Routes>
     </div>
   );
