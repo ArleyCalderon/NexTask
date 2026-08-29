@@ -6,6 +6,7 @@ import { ContextoAuth } from './contexto/ContextoAuth';
 import FormularioRegistro from './componentes/Auth/FormularioRegistro';
 import ListaTareas from './componentes/Tarea/ListaTareas';
 import ListaCategorias from './componentes/Categoria/ListaCategorias';
+import ListaEtiquetas from './componentes/Etiqueta/ListaEtiquetas';
 
 function App() {
 
@@ -26,6 +27,8 @@ function App() {
         <Link to="/tareas">Tareas</Link>
         {' | '}
         <Link to="/categorias">Categorías</Link>
+        {' | '}
+        <Link to="/etiquetas">Etiquetas</Link>
         {' | '}
         <button onClick={logout}>
           Cerrar sesión
@@ -62,7 +65,14 @@ function App() {
           </RutaProtegida>
         }
       />
-
+      <Route
+        path="/etiquetas"
+        element={
+          <RutaProtegida>
+            <ListaEtiquetas />
+          </RutaProtegida>
+        }
+      />
       </Routes>
     </div>
   );

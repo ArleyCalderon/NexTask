@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
 
+
 function FormularioTarea({
   onCrear,
   onActualizar,
   tareaInicial = null,
   onCancelar,
 }) {
+  
   const esEdicion = Boolean(tareaInicial);
 
   const [titulo, setTitulo] = useState(

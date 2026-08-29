@@ -80,6 +80,44 @@ const actualizarTarea = async (id, datosTarea) => {
   }
 };
 
+const agregarEtiquetaTarea = async (tareaId, etiquetaId) => {
+  try {
+    setError('');
+
+    await api.post(
+      `/tareas/${tareaId}/etiquetas/${etiquetaId}`
+    );
+
+    await cargarTareas();
+  } catch (error) {
+    setError(
+      error.response?.data?.error ||
+      'Error al agregar la etiqueta'
+    );
+
+    throw error;
+  }
+};
+
+const quitarEtiquetaTarea = async (tareaId, etiquetaId) => {
+  try {
+    setError('');
+
+    await api.delete(
+      `/tareas/${tareaId}/etiquetas/${etiquetaId}`
+    );
+
+    await cargarTareas();
+  } catch (error) {
+    setError(
+      error.response?.data?.error ||
+      'Error al quitar la etiqueta'
+    );
+
+    throw error;
+  }
+};
+
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -117,6 +155,8 @@ const actualizarTarea = async (id, datosTarea) => {
     crearTarea,
     eliminarTarea,
     actualizarTarea,
+    agregarEtiquetaTarea,
+    quitarEtiquetaTarea,
   };
 }
 
