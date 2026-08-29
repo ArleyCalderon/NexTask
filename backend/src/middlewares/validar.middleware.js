@@ -1,8 +1,13 @@
 const AppError = require('../utils/AppError');
 
-function validar(schema) {
+function validar(schema, origen = 'body') {
   return (req, res, next) => {
-    const resultado = schema.safeParse(req.body);
+    const datos =
+      origen === 'query'
+        ? req.query
+        : req.body;
+
+    const resultado = schema.safeParse(datos);
 
     if (!resultado.success) {
       const detalles = resultado.error.issues.map((issue) => ({
@@ -19,7 +24,11 @@ function validar(schema) {
       );
     }
 
-    req.body = resultado.data;
+    if (origen === 'query') {
+      req.queryValidada = resultado.data;
+    } else {
+      req.body = resultado.data;
+    }
 
     next();
   };

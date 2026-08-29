@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 
 const pool = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
+const tareasRoutes = require('./routes/tareas.routes');
 
 const app = express();
 
@@ -31,6 +32,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 
+
 app.get('/api/health', async (req, res, next) => {
   try {
     const resultado = await pool.query(
@@ -50,6 +52,7 @@ app.get('/api/health', async (req, res, next) => {
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/tareas', tareasRoutes);
 
 
 app.use((req, res) => {
