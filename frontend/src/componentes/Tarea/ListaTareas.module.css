@@ -114,6 +114,129 @@
   gap: 14px;
 }
 
+.exportacion {
+  position: relative;
+}
+
+.botonExportar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  border: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.botonExportar:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+
+  background: var(--color-surface-soft);
+
+  transform: translateY(-1px);
+}
+
+.botonExportar:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.menuExportacion {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  z-index: 20;
+
+  width: 235px;
+
+  padding: 7px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+
+  box-shadow: var(--shadow-lg);
+}
+
+.menuExportacion > button {
+  width: 100%;
+
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: transparent;
+  color: var(--color-text);
+
+  text-align: left;
+
+  transition:
+    background-color 0.18s ease;
+}
+
+.menuExportacion > button:hover {
+  background: var(--color-surface-soft);
+}
+
+.menuExportacion > button > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.menuExportacion strong {
+  color: var(--color-text);
+
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.menuExportacion button div span {
+  color: var(--color-text-soft);
+
+  font-size: 9px;
+}
+
+.iconoExportacionCSV,
+.iconoExportacionJSON {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+}
+
+.iconoExportacionCSV {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.iconoExportacionJSON {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
 @media (min-width: 1280px) {
   .lista {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -170,9 +293,106 @@
   .accionesEncabezado {
     width: 100%;
   }
+  .exportacion {
+  flex: 1;
+}
+
+.atajo {
+  min-width: 21px;
+  height: 21px;
+
+  padding: 0 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      currentColor 20%,
+      transparent
+    );
+
+  border-radius: 6px;
+
+  background:
+    color-mix(
+      in srgb,
+      currentColor 7%,
+      transparent
+    );
+
+  color: inherit;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 750;
+
+  line-height: 1;
+
+  opacity: 0.75;
+}
+
+.botonExportar {
+  width: 100%;
+}
 
   .accionesEncabezado button {
     flex: 1;
+  }
+}
+
+.atajo {
+  min-width: 22px;
+  height: 20px;
+
+  margin-left: 6px;
+  padding: 0 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      currentColor 25%,
+      transparent
+    );
+
+  border-radius: 6px;
+
+  background:
+    color-mix(
+      in srgb,
+      currentColor 10%,
+      transparent
+    );
+
+  color: inherit;
+
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+
+  opacity: 0.8;
+}
+
+.botonFiltros,
+.botonNuevaTarea {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+}
+
+@media (max-width: 600px) {
+  .atajo {
+    display: none;
   }
 }
 
@@ -180,6 +400,16 @@
   .accionesEncabezado {
     flex-direction: column;
   }
+  .exportacion {
+  width: 100%;
+}
+
+.menuExportacion {
+  right: auto;
+  left: 0;
+
+  width: 100%;
+}
 
   .accionesEncabezado button {
     width: 100%;
