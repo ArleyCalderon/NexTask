@@ -1,12 +1,14 @@
 import useTareas from '../../hooks/useTareas';
 import ItemTarea from './ItemTarea';
+import FormularioTarea from './FormularioTarea';
 
 function ListaTareas() {
     const {
-    tareas,
-    cargando,
-    error,
-    cambiarEstadoTarea,
+      tareas,
+      cargando,
+      error,
+      cambiarEstadoTarea,
+      crearTarea,
     } = useTareas();
 
   if (cargando) {
@@ -20,7 +22,7 @@ function ListaTareas() {
   return (
     <div>
       <h2>Mis tareas</h2>
-
+      <FormularioTarea onCrear={crearTarea} />
       {tareas.length === 0 ? (
         <p>No tienes tareas todavía.</p>
       ) : (

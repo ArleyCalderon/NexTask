@@ -25,6 +25,24 @@ const cambiarEstadoTarea = async (id) => {
     );
   }
 };
+
+const crearTarea = async (datosTarea) => {
+  try {
+    setError('');
+
+    await api.post('/tareas', datosTarea);
+
+    await cargarTareas();
+  } catch (error) {
+    const mensaje =
+      error.response?.data?.error ||
+      'Error al crear la tarea';
+
+    setError(mensaje);
+
+    throw error;
+  }
+};
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -53,13 +71,14 @@ const cambiarEstadoTarea = async (id) => {
     cargarTareas();
   }, []);
 
-    return {
+  return {
     tareas,
     cargando,
     error,
     cargarTareas,
     cambiarEstadoTarea,
-    };
+    crearTarea,
+  };
 }
 
 export default useTareas;
