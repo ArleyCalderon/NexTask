@@ -3,6 +3,7 @@ import FormularioLogin from './componentes/Auth/FormularioLogin';
 import RutaProtegida from './componentes/Auth/RutaProtegida';
 import { useContext } from 'react';
 import { ContextoAuth } from './contexto/ContextoAuth';
+import FormularioRegistro from './componentes/Auth/FormularioRegistro';
 
 function App() {
 
@@ -33,10 +34,10 @@ function App() {
           element={<FormularioLogin />}
         />
 
-        <Route
-          path="/registro"
-          element={<h2>Página de Registro</h2>}
-        />
+      <Route
+        path="/registro"
+        element={<FormularioRegistro />}
+      />
 
         <Route
         path="/tareas"

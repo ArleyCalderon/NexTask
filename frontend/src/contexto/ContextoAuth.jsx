@@ -44,6 +44,21 @@ export function ProveedorAuth({ children }) {
     return respuesta.data;
   };
 
+const registro = async (nombre, email, password) => {
+  const respuesta = await api.post('/auth/registro', {
+    nombre,
+    email,
+    password,
+  });
+
+  const { token, usuario } = respuesta.data;
+
+  localStorage.setItem('token', token);
+  setUsuario(usuario);
+
+  return respuesta.data;
+};
+
   const logout = () => {
     localStorage.removeItem('token');
     setUsuario(null);
@@ -51,12 +66,13 @@ export function ProveedorAuth({ children }) {
 
   return (
     <ContextoAuth.Provider
-      value={{
+        value={{
         usuario,
         cargando,
         login,
+        registro,
         logout,
-      }}
+        }}
     >
       {children}
     </ContextoAuth.Provider>
