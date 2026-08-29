@@ -1,0 +1,163 @@
+.pagina {
+  width: 100%;
+}
+
+.encabezado {
+  margin-bottom: 24px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.encabezado h1 {
+  margin-bottom: 6px;
+
+  font-size: 28px;
+  color: var(--color-text);
+}
+
+.encabezado p {
+  color: var(--color-text-soft);
+  font-size: 14px;
+}
+
+.accionesEncabezado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accionesEncabezado button {
+  min-height: 40px;
+
+  padding: 9px 15px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.botonNuevaTarea {
+  border: 1px solid var(--color-primary);
+
+  background: var(--color-primary);
+  color: white;
+}
+
+.botonNuevaTarea:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+
+  transform: translateY(-1px);
+}
+
+.botonFiltros {
+  border: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.botonFiltros:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.panelDesplegable {
+  margin-bottom: 20px;
+}
+
+.seccionTareas {
+  margin-top: 6px;
+}
+
+.tituloLista {
+  margin-bottom: 14px;
+}
+
+.tituloLista h2 {
+  font-size: 20px;
+}
+
+.tituloLista p {
+  margin-top: 3px;
+
+  color: var(--color-text-soft);
+  font-size: 13px;
+}
+
+.lista {
+  display: grid;
+  gap: 14px;
+}
+
+.vacio {
+  padding: 56px 24px;
+
+  text-align: center;
+
+  background: var(--color-surface);
+
+  border: 1px dashed var(--color-border);
+  border-radius: 16px;
+}
+
+.iconoVacio {
+  width: 48px;
+  height: 48px;
+
+  margin: 0 auto 14px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+  color: var(--color-primary);
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.vacio h3 {
+  margin-bottom: 6px;
+}
+
+.vacio p {
+  color: var(--color-text-soft);
+  font-size: 14px;
+}
+
+@media (max-width: 750px) {
+  .encabezado {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .accionesEncabezado {
+    width: 100%;
+  }
+
+  .accionesEncabezado button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .accionesEncabezado {
+    flex-direction: column;
+  }
+
+  .accionesEncabezado button {
+    width: 100%;
+  }
+}

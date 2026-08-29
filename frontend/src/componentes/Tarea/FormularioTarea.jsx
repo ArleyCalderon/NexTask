@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
 import MensajeError from '../Comunes/MensajeError';
-
+import estilos from './FormularioTarea.module.css';
 
 function FormularioTarea({
   onCrear,
@@ -89,12 +89,26 @@ function FormularioTarea({
   };
 
   return (
-    <form onSubmit={manejarSubmit}>
-      <h2>
-        {esEdicion ? 'Editar tarea' : 'Nueva tarea'}
-      </h2>
-
+  <form
+    onSubmit={manejarSubmit}
+    className={estilos.formulario}
+  >
+    <div className={estilos.encabezado}>
       <div>
+        <h2>
+          {esEdicion ? 'Editar tarea' : 'Nueva tarea'}
+        </h2>
+
+        <p>
+          {esEdicion
+            ? 'Actualiza la información de la tarea.'
+            : 'Agrega una nueva actividad a tu lista.'}
+        </p>
+      </div>
+    </div>
+
+    <div className={estilos.grid}>
+      <div className={`${estilos.campo} ${estilos.titulo}`}>
         <label htmlFor={`titulo-${tareaInicial?.id || 'nueva'}`}>
           Título
         </label>
@@ -105,14 +119,13 @@ function FormularioTarea({
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
           maxLength={200}
+          placeholder="Ej. Preparar presentación"
           required
         />
       </div>
 
-      <div>
-        <label
-          htmlFor={`descripcion-${tareaInicial?.id || 'nueva'}`}
-        >
+      <div className={`${estilos.campo} ${estilos.descripcion}`}>
+        <label htmlFor={`descripcion-${tareaInicial?.id || 'nueva'}`}>
           Descripción
         </label>
 
@@ -120,13 +133,12 @@ function FormularioTarea({
           id={`descripcion-${tareaInicial?.id || 'nueva'}`}
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
+          placeholder="Describe brevemente la tarea..."
         />
       </div>
 
-      <div>
-        <label
-          htmlFor={`prioridad-${tareaInicial?.id || 'nueva'}`}
-        >
+      <div className={estilos.campo}>
+        <label htmlFor={`prioridad-${tareaInicial?.id || 'nueva'}`}>
           Prioridad
         </label>
 
@@ -141,10 +153,8 @@ function FormularioTarea({
         </select>
       </div>
 
-      <div>
-        <label
-          htmlFor={`categoria-${tareaInicial?.id || 'nueva'}`}
-        >
+      <div className={estilos.campo}>
+        <label htmlFor={`categoria-${tareaInicial?.id || 'nueva'}`}>
           Categoría
         </label>
 
@@ -171,10 +181,8 @@ function FormularioTarea({
         </select>
       </div>
 
-      <div>
-        <label
-          htmlFor={`fecha-${tareaInicial?.id || 'nueva'}`}
-        >
+      <div className={estilos.campo}>
+        <label htmlFor={`fecha-${tareaInicial?.id || 'nueva'}`}>
           Fecha de vencimiento
         </label>
 
@@ -182,17 +190,29 @@ function FormularioTarea({
           id={`fecha-${tareaInicial?.id || 'nueva'}`}
           type="date"
           value={fechaVencimiento}
-          onChange={(e) =>
-            setFechaVencimiento(e.target.value)
-          }
+          onChange={(e) => setFechaVencimiento(e.target.value)}
         />
       </div>
+    </div>
 
-      <MensajeError mensaje={errorCategorias} />
-      <MensajeError mensaje={error} />
+    <MensajeError mensaje={errorCategorias} />
+    <MensajeError mensaje={error} />
+
+    <div className={estilos.acciones}>
+      {esEdicion && (
+        <button
+          type="button"
+          className={estilos.secundario}
+          onClick={onCancelar}
+          disabled={enviando}
+        >
+          Cancelar
+        </button>
+      )}
 
       <button
         type="submit"
+        className={estilos.primario}
         disabled={enviando || cargandoCategorias}
       >
         {enviando
@@ -201,18 +221,9 @@ function FormularioTarea({
             ? 'Guardar cambios'
             : 'Crear tarea'}
       </button>
-
-      {esEdicion && (
-        <button
-          type="button"
-          onClick={onCancelar}
-          disabled={enviando}
-        >
-          Cancelar
-        </button>
-      )}
-    </form>
-  );
+    </div>
+  </form>
+);
 }
 
 export default FormularioTarea;

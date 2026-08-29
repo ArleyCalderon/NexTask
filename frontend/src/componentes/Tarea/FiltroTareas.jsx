@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
 import MensajeError from '../Comunes/MensajeError';
+import estilos from './FiltroTareas.module.css';
 
 function FiltroTareas({
   onFiltrar,
@@ -108,37 +109,38 @@ function FiltroTareas({
     onFiltrar({});
   };
 
-  return (
-    <form onSubmit={manejarSubmit}>
-      <h2>Filtrar tareas</h2>
-
+ return (
+  <form
+    onSubmit={manejarSubmit}
+    className={estilos.filtros}
+  >
+    <div className={estilos.encabezado}>
       <div>
-        <label htmlFor="busqueda">
-          Buscar
-        </label>
+        <h2>Filtrar tareas</h2>
+        <p>Encuentra rápidamente las actividades que necesitas.</p>
+      </div>
+    </div>
+
+    <div className={estilos.grid}>
+      <div className={`${estilos.campo} ${estilos.busqueda}`}>
+        <label htmlFor="busqueda">Buscar</label>
 
         <input
           id="busqueda"
           type="text"
           value={busqueda}
-          onChange={(e) =>
-            setBusqueda(e.target.value)
-          }
+          onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Título o descripción"
         />
       </div>
 
-      <div>
-        <label htmlFor="prioridadFiltro">
-          Prioridad
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="prioridadFiltro">Prioridad</label>
 
         <select
           id="prioridadFiltro"
           value={prioridad}
-          onChange={(e) =>
-            setPrioridad(e.target.value)
-          }
+          onChange={(e) => setPrioridad(e.target.value)}
         >
           <option value="">Todas</option>
           <option value="baja">Baja</option>
@@ -147,39 +149,27 @@ function FiltroTareas({
         </select>
       </div>
 
-      <div>
-        <label htmlFor="estadoFiltro">
-          Estado
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="estadoFiltro">Estado</label>
 
         <select
           id="estadoFiltro"
           value={completada}
-          onChange={(e) =>
-            setCompletada(e.target.value)
-          }
+          onChange={(e) => setCompletada(e.target.value)}
         >
           <option value="">Todas</option>
-          <option value="false">
-            Pendientes
-          </option>
-          <option value="true">
-            Completadas
-          </option>
+          <option value="false">Pendientes</option>
+          <option value="true">Completadas</option>
         </select>
       </div>
 
-      <div>
-        <label htmlFor="categoriaFiltro">
-          Categoría
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="categoriaFiltro">Categoría</label>
 
         <select
           id="categoriaFiltro"
           value={categoria}
-          onChange={(e) =>
-            setCategoria(e.target.value)
-          }
+          onChange={(e) => setCategoria(e.target.value)}
           disabled={cargandoCategorias}
         >
           <option value="">Todas</option>
@@ -195,136 +185,102 @@ function FiltroTareas({
         </select>
       </div>
 
-      <div>
-        <label htmlFor="etiquetaFiltro">
-          Etiqueta
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="etiquetaFiltro">Etiqueta</label>
 
         <select
           id="etiquetaFiltro"
           value={etiqueta}
-          onChange={(e) =>
-            setEtiqueta(e.target.value)
-          }
+          onChange={(e) => setEtiqueta(e.target.value)}
           disabled={cargandoEtiquetas}
         >
           <option value="">Todas</option>
 
-          {etiquetasDisponibles.map(
-            (etiqueta) => (
-              <option
-                key={etiqueta.id}
-                value={etiqueta.nombre}
-              >
-                {etiqueta.nombre}
-              </option>
-            )
-          )}
+          {etiquetasDisponibles.map((etiqueta) => (
+            <option
+              key={etiqueta.id}
+              value={etiqueta.nombre}
+            >
+              {etiqueta.nombre}
+            </option>
+          ))}
         </select>
       </div>
 
-      <div>
-        <label htmlFor="fechaDesde">
-          Vence desde
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="fechaDesde">Vence desde</label>
 
         <input
           id="fechaDesde"
           type="date"
           value={fechaDesde}
-          onChange={(e) =>
-            setFechaDesde(e.target.value)
-          }
+          onChange={(e) => setFechaDesde(e.target.value)}
         />
       </div>
 
-      <div>
-        <label htmlFor="fechaHasta">
-          Vence hasta
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="fechaHasta">Vence hasta</label>
 
         <input
           id="fechaHasta"
           type="date"
           value={fechaHasta}
-          onChange={(e) =>
-            setFechaHasta(e.target.value)
-          }
+          onChange={(e) => setFechaHasta(e.target.value)}
         />
       </div>
 
-      <div>
-        <label htmlFor="ordenarFiltro">
-          Ordenar por
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="ordenarFiltro">Ordenar por</label>
 
         <select
           id="ordenarFiltro"
           value={ordenar}
-          onChange={(e) =>
-            setOrdenar(e.target.value)
-          }
+          onChange={(e) => setOrdenar(e.target.value)}
         >
-          <option value="">
-            Orden predeterminado
-          </option>
-
-          <option value="creado_en">
-            Fecha de creación
-          </option>
-
-          <option value="fecha_vencimiento">
-            Fecha de vencimiento
-          </option>
-
-          <option value="prioridad">
-            Prioridad
-          </option>
-
-          <option value="titulo">
-            Título
-          </option>
+          <option value="">Orden predeterminado</option>
+          <option value="creado_en">Fecha de creación</option>
+          <option value="fecha_vencimiento">Fecha de vencimiento</option>
+          <option value="prioridad">Prioridad</option>
+          <option value="titulo">Título</option>
         </select>
       </div>
 
-      <div>
-        <label htmlFor="direccionFiltro">
-          Dirección
-        </label>
+      <div className={estilos.campo}>
+        <label htmlFor="direccionFiltro">Dirección</label>
 
         <select
           id="direccionFiltro"
           value={direccion}
-          onChange={(e) =>
-            setDireccion(e.target.value)
-          }
+          onChange={(e) => setDireccion(e.target.value)}
           disabled={!ordenar}
         >
-          <option value="asc">
-            Ascendente
-          </option>
-
-          <option value="desc">
-            Descendente
-          </option>
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
         </select>
       </div>
+    </div>
 
-        <MensajeError mensaje={errorCategorias} />
-        <MensajeError mensaje={errorFiltro} />
+    <MensajeError mensaje={errorCategorias} />
+    <MensajeError mensaje={errorFiltro} />
 
-      <button type="submit">
-        Aplicar filtros
-      </button>
-
+    <div className={estilos.acciones}>
       <button
         type="button"
+        className={estilos.limpiar}
         onClick={limpiarFiltros}
       >
         Limpiar
       </button>
-    </form>
-  );
+
+      <button
+        type="submit"
+        className={estilos.aplicar}
+      >
+        Aplicar filtros
+      </button>
+    </div>
+  </form>
+);
 }
 
 export default FiltroTareas;

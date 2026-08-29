@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormularioTarea from './FormularioTarea';
+import estilos from './ItemTarea.module.css';
 
 function ItemTarea({
   tarea,
@@ -57,112 +58,114 @@ function ItemTarea({
         )
     );
 
-  if (editando) {
-    return (
-      <article>
-        <FormularioTarea
-          tareaInicial={tarea}
-          onActualizar={onActualizar}
-          onCancelar={() => setEditando(false)}
-        />
-      </article>
-    );
-  }
+    const clasesPrioridad = {
+    baja: estilos.prioridadBaja,
+    media: estilos.prioridadMedia,
+    alta: estilos.prioridadAlta,
+  };
 
+if (editando) {
   return (
-    <article>
+    <article className={estilos.edicion}>
+      <FormularioTarea
+        tareaInicial={tarea}
+        onActualizar={onActualizar}
+        onCancelar={() => setEditando(false)}
+      />
+    </article>
+  );
+}
+
+return (
+  <article
+    className={`${estilos.tarea} ${
+      tarea.completada ? estilos.tareaCompletada : ''
+    }`}
+  >
+    <div className={estilos.superior}>
       <div>
-        <h3>{tarea.titulo}</h3>
+        <div className={estilos.tituloEstado}>
+          <h3>{tarea.titulo}</h3>
 
-        <span>
-          {tarea.completada
-            ? 'Completada'
-            : 'Pendiente'}
-        </span>
-      </div>
-
-      <button
-        type="button"
-        onClick={() => onCambiarEstado(tarea.id)}
-      >
-        {tarea.completada
-          ? 'Marcar como pendiente'
-          : 'Marcar como completada'}
-      </button>
-
-      <button
-        type="button"
-        onClick={() => setEditando(true)}
-      >
-        Editar
-      </button>
-
-      <button
-        type="button"
-        onClick={manejarEliminar}
-      >
-        Eliminar
-      </button>
-
-      {tarea.descripcion && (
-        <p>{tarea.descripcion}</p>
-      )}
-
-      <div>
-        <span>
-          Prioridad: {tarea.prioridad}
-        </span>
-
-        {tarea.categoria_nombre && (
-          <span>
-            {' '}
-            Categoría: {tarea.categoria_nombre}
+          <span
+            className={`${estilos.estado} ${
+              tarea.completada
+                ? estilos.completada
+                : estilos.pendiente
+            }`}
+          >
+            {tarea.completada ? 'Completada' : 'Pendiente'}
           </span>
+        </div>
+
+        {tarea.descripcion && (
+          <p className={estilos.descripcion}>
+            {tarea.descripcion}
+          </p>
         )}
       </div>
+
+      <span
+        className={`${estilos.prioridad} ${
+          clasesPrioridad[tarea.prioridad]
+        }`}
+      >
+        {tarea.prioridad}
+      </span>
+    </div>
+
+    <div className={estilos.metadatos}>
+      {tarea.categoria_nombre && (
+        <span>
+          Categoría: <strong>{tarea.categoria_nombre}</strong>
+        </span>
+      )}
 
       {tarea.fecha_vencimiento && (
-        <p>
+        <span>
           Vence:{' '}
-          {new Date(
-            tarea.fecha_vencimiento
-          ).toLocaleDateString()}
-        </p>
+          <strong>
+            {new Date(
+              tarea.fecha_vencimiento
+            ).toLocaleDateString()}
+          </strong>
+        </span>
       )}
+    </div>
 
-      <div>
-        <strong>Etiquetas:</strong>
+    <div className={estilos.etiquetas}>
+      {tarea.etiquetas.length === 0 ? (
+        <span className={estilos.sinEtiquetas}>
+          Sin etiquetas
+        </span>
+      ) : (
+        tarea.etiquetas.map((etiqueta) => (
+          <span
+            key={etiqueta.id}
+            className={estilos.etiqueta}
+          >
+            #{etiqueta.nombre}
 
-        {tarea.etiquetas.length === 0 ? (
-          <span> Sin etiquetas</span>
-        ) : (
-          tarea.etiquetas.map((etiqueta) => (
-            <span key={etiqueta.id}>
-              {' '}
-              #{etiqueta.nombre}
+            <button
+              type="button"
+              onClick={() =>
+                manejarQuitarEtiqueta(etiqueta.id)
+              }
+              aria-label={`Quitar etiqueta ${etiqueta.nombre}`}
+            >
+              ×
+            </button>
+          </span>
+        ))
+      )}
+    </div>
 
-              <button
-                type="button"
-                onClick={() =>
-                  manejarQuitarEtiqueta(
-                    etiqueta.id
-                  )
-                }
-              >
-                ×
-              </button>
-            </span>
-          ))
-        )}
-      </div>
-
-      <div>
+    <div className={estilos.pie}>
+      <div className={estilos.agregarEtiqueta}>
         <select
           value={etiquetaSeleccionada}
           onChange={(e) =>
-            setEtiquetaSeleccionada(
-              e.target.value
-            )
+            setEtiquetaSeleccionada(e.target.value)
           }
           disabled={
             cargandoEtiquetas ||
@@ -172,19 +175,17 @@ function ItemTarea({
           <option value="">
             {etiquetasParaAgregar.length === 0
               ? 'No hay etiquetas disponibles'
-              : 'Seleccionar etiqueta'}
+              : 'Agregar etiqueta'}
           </option>
 
-          {etiquetasParaAgregar.map(
-            (etiqueta) => (
-              <option
-                key={etiqueta.id}
-                value={etiqueta.id}
-              >
-                {etiqueta.nombre}
-              </option>
-            )
-          )}
+          {etiquetasParaAgregar.map((etiqueta) => (
+            <option
+              key={etiqueta.id}
+              value={etiqueta.id}
+            >
+              {etiqueta.nombre}
+            </option>
+          ))}
         </select>
 
         <button
@@ -192,11 +193,38 @@ function ItemTarea({
           onClick={manejarAgregarEtiqueta}
           disabled={!etiquetaSeleccionada}
         >
-          Agregar etiqueta
+          Agregar
         </button>
       </div>
-    </article>
-  );
+
+      <div className={estilos.acciones}>
+        <button
+          type="button"
+          className={estilos.completar}
+          onClick={() => onCambiarEstado(tarea.id)}
+        >
+          {tarea.completada ? '↶ Pendiente' : '✓ Completar'}
+        </button>
+
+        <button
+          type="button"
+          className={estilos.editar}
+          onClick={() => setEditando(true)}
+        >
+          Editar
+        </button>
+
+        <button
+          type="button"
+          className={estilos.eliminar}
+          onClick={manejarEliminar}
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </article>
+);
 }
 
 export default ItemTarea;
