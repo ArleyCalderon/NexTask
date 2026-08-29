@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { ContextoAuth } from '../../contexto/ContextoAuth';
+import useAuth from '../../hooks/useAuth';
 import MensajeError from '../Comunes/MensajeError';
 
 import estilos from './Auth.module.css';
@@ -12,7 +12,7 @@ function FormularioLogin() {
   const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
 
-  const { login } = useContext(ContextoAuth);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const manejarSubmit = async (e) => {

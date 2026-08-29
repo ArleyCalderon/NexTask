@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { ContextoAuth } from '../../contexto/ContextoAuth';
+import useAuth from '../../hooks/useAuth';
 import Cargando from '../Comunes/Cargando';
 
 function RutaProtegida({ children }) {
-  const { usuario, cargando } = useContext(ContextoAuth);
+  const { usuario, cargando } = useAuth();
 
   if (cargando) {
     return <Cargando mensaje="Verificando sesión..." />;

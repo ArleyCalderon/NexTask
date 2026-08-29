@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import FormularioTarea from './FormularioTarea';
 import estilos from './ItemTarea.module.css';
+import { formatearFecha } from '../../utils/helpers';
 
 function ItemTarea({
   tarea,
@@ -125,9 +126,7 @@ return (
         <span>
           Vence:{' '}
           <strong>
-            {new Date(
-              tarea.fecha_vencimiento
-            ).toLocaleDateString()}
+            {formatearFecha(tarea.fecha_vencimiento)}
           </strong>
         </span>
       )}

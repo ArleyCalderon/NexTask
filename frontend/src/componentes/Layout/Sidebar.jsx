@@ -1,11 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { ContextoAuth } from '../../contexto/ContextoAuth';
+import useAuth from '../../hooks/useAuth';
 
 import estilos from './Sidebar.module.css';
 
 function Sidebar() {
-  const { logout } = useContext(ContextoAuth);
+  const { logout } = useAuth();
 
   const obtenerClaseEnlace = ({ isActive }) =>
     `${estilos.enlace} ${isActive ? estilos.activo : ''}`;

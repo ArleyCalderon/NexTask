@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { ProveedorAuth } from './contexto/ContextoAuth.jsx';
 import './index.css';
 import App from './App.jsx';
+import ErrorBoundary from './componentes/Comunes/ErrorBoundary.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <ProveedorAuth>
-        <App />
-      </ProveedorAuth>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ProveedorAuth>
+          <App />
+        </ProveedorAuth>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>
 );

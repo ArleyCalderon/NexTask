@@ -1,9 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import { ContextoAuth } from '../../contexto/ContextoAuth';
 import MensajeError from '../Comunes/MensajeError';
-
+import useAuth from '../../hooks/useAuth';
 import estilos from './Auth.module.css';
 
 function FormularioRegistro() {
@@ -13,7 +11,7 @@ function FormularioRegistro() {
   const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
 
-  const { registro } = useContext(ContextoAuth);
+  const { registro } = useAuth();
   const navigate = useNavigate();
 
   const manejarSubmit = async (e) => {
