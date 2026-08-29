@@ -35,7 +35,7 @@ VALUES
 (
     'Usuario Demo',
     'demo@nextask.local',
-    '$2b$12$1LGxeXU/gIwh9Bu7EQ2o7.QAoeZtj/Jbp5khD/GHp2149c8g5oipa',
+    '$2b$12$fBzKtauExKgsT0GVJ/NLkufZNuH1ggIRvPOftew6nn0IH5hemrfxe',
     NOW() - INTERVAL '2 hours',
     NOW() - INTERVAL '14 months'
 ),

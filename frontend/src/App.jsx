@@ -4,6 +4,7 @@ import RutaProtegida from './componentes/Auth/RutaProtegida';
 import { useContext } from 'react';
 import { ContextoAuth } from './contexto/ContextoAuth';
 import FormularioRegistro from './componentes/Auth/FormularioRegistro';
+import ListaTareas from './componentes/Tarea/ListaTareas';
 
 function App() {
 
@@ -39,11 +40,11 @@ function App() {
         element={<FormularioRegistro />}
       />
 
-        <Route
+      <Route
         path="/tareas"
         element={
           <RutaProtegida>
-            <h2>Página de Tareas</h2>
+            <ListaTareas />
           </RutaProtegida>
         }
       />
