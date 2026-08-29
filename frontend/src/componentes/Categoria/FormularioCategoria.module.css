@@ -6,15 +6,36 @@
   border: 1px solid var(--color-border);
   border-radius: 16px;
 
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .encabezado {
   margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconoEncabezado {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }
 
 .encabezado h2 {
   margin-bottom: 4px;
+
+  color: var(--color-text);
   font-size: 19px;
 }
 
@@ -25,7 +46,10 @@
 
 .campos {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
+
+  grid-template-columns:
+    minmax(0, 1fr) 220px;
+
   gap: 16px;
 }
 
@@ -38,40 +62,61 @@
 
 .campoNombre label,
 .campoColor label {
-  color: #475569;
+  color: var(--color-text-soft);
+
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .campoNombre input {
   width: 100%;
+
   padding: 10px 12px;
 
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
+  border:
+    1px solid
+    var(--color-border-strong);
+
+  border-radius: 10px;
+
+  background: var(--color-input);
+  color: var(--color-text);
 
   outline: none;
+}
+
+.campoNombre input::placeholder {
+  color: var(--color-text-muted);
 }
 
 .campoNombre input:focus {
   border-color: var(--color-primary);
 
   box-shadow:
-    0 0 0 3px rgba(79, 70, 229, 0.12);
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--color-primary) 14%,
+      transparent
+    );
 }
 
 .selectorColor {
   min-height: 42px;
+
   padding: 5px 10px;
 
   display: flex;
   align-items: center;
   gap: 10px;
 
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
+  border:
+    1px solid
+    var(--color-border-strong);
 
-  background: white;
+  border-radius: 10px;
+
+  background: var(--color-input);
 }
 
 .selectorColor input {
@@ -81,6 +126,7 @@
   padding: 0;
 
   border: none;
+
   background: transparent;
 
   cursor: pointer;
@@ -102,19 +148,25 @@
 }
 
 .acciones button {
-  padding: 10px 16px;
+  min-height: 38px;
 
-  border-radius: 9px;
+  padding: 8px 14px;
 
-  font-size: 13px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 650;
 }
 
 .guardar {
-  border: none;
+  border: 1px solid var(--color-primary);
 
   background: var(--color-primary);
-  color: white;
+  color: #ffffff;
 }
 
 .guardar:hover:not(:disabled) {
@@ -124,7 +176,7 @@
 .cancelar {
   border: 1px solid var(--color-border);
 
-  background: white;
+  background: var(--color-surface-soft);
   color: var(--color-text);
 }
 

@@ -1,26 +1,105 @@
 :root {
   font-family:
-    Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-  color: #1e293b;
-  background: #f4f7fb;
+  /* Marca */
+  --color-primary: #5b3df5;
+  --color-primary-dark: #4930dd;
+  --color-primary-soft: #eeeaff;
 
-  --color-primary: #4f46e5;
-  --color-primary-dark: #4338ca;
-
-  --color-bg: #f4f7fb;
+  /* Superficies */
+  --color-bg: #f5f7fc;
   --color-surface: #ffffff;
-  --color-sidebar: #111827;
+  --color-surface-soft: #f8f9fd;
+  --color-sidebar: #0f172d;
+  --color-input: #ffffff;
 
-  --color-text: #1e293b;
-  --color-text-soft: #64748b;
-  --color-border: #e2e8f0;
+  /* Texto */
+  --color-text: #111827;
+  --color-text-soft: #68738a;
+  --color-text-muted: #94a3b8;
 
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  /* Bordes */
+  --color-border: #e3e8f1;
+  --color-border-strong: #cdd5e1;
+
+  /* Estados */
+  --color-success: #16a34a;
+  --color-success-soft: #ecfdf3;
+
+  --color-warning: #d97706;
+  --color-warning-soft: #fff7e8;
+
+  --color-danger: #dc2626;
+  --color-danger-soft: #fff0f0;
+
+  --color-info: #2563eb;
+  --color-info-soft: #eff6ff;
+
+  /* Sombras */
+  --shadow-sm:
+    0 2px 6px rgba(15, 23, 42, 0.04);
+
+  --shadow-md:
+    0 8px 24px rgba(15, 23, 42, 0.07);
+
+  --shadow-lg:
+    0 18px 45px rgba(15, 23, 42, 0.09);
+
+  color: var(--color-text);
+  background: var(--color-bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  --color-primary: #765cff;
+  --color-primary-dark: #6045ef;
+  --color-primary-soft: #201b48;
+
+  --color-bg: #081426;
+  --color-surface: #101d34;
+  --color-surface-soft: #14243e;
+  --color-sidebar: #071124;
+  --color-input: #0c192f;
+
+  --color-text: #f7f9fc;
+  --color-text-soft: #a7b3c8;
+  --color-text-muted: #708099;
+
+  --color-border: #223550;
+  --color-border-strong: #344966;
+
+  --color-success: #4ade80;
+  --color-success-soft: #102e24;
+
+  --color-warning: #fbbf24;
+  --color-warning-soft: #352813;
+
+  --color-danger: #fb7185;
+  --color-danger-soft: #351821;
+
+  --color-info: #60a5fa;
+  --color-info-soft: #132844;
+
+  --shadow-sm:
+    0 2px 8px rgba(0, 0, 0, 0.16);
+
+  --shadow-md:
+    0 10px 28px rgba(0, 0, 0, 0.22);
+
+  --shadow-lg:
+    0 20px 50px rgba(0, 0, 0, 0.28);
+
+  color-scheme: dark;
 }
 
 * {
@@ -35,11 +114,20 @@ body,
   min-height: 100%;
 }
 
+html {
+  background: var(--color-bg);
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
+
   background: var(--color-bg);
   color: var(--color-text);
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 button,
@@ -49,10 +137,21 @@ select {
   font: inherit;
 }
 
+input,
+textarea,
+select {
+  color: var(--color-text);
+}
+
 button {
   cursor: pointer;
 }
 
 a {
   color: inherit;
+}
+
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }

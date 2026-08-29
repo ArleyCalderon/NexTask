@@ -3,7 +3,7 @@
 }
 
 .encabezado {
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 
   display: flex;
   align-items: flex-end;
@@ -14,7 +14,9 @@
 .encabezado h1 {
   margin-bottom: 6px;
 
-  font-size: 28px;
+  font-size: 30px;
+  letter-spacing: -0.5px;
+
   color: var(--color-text);
 }
 
@@ -30,26 +32,31 @@
 }
 
 .accionesEncabezado button {
-  min-height: 40px;
+  min-height: 42px;
 
-  padding: 9px 15px;
+  padding: 9px 16px;
 
-  border-radius: 9px;
+  border-radius: 11px;
 
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 650;
 
   transition:
-    background 0.2s ease,
+    background-color 0.2s ease,
     border-color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .botonNuevaTarea {
   border: 1px solid var(--color-primary);
 
   background: var(--color-primary);
-  color: white;
+  color: #ffffff;
+
+  box-shadow:
+    0 6px 16px rgba(91, 61, 245, 0.18);
 }
 
 .botonNuevaTarea:hover {
@@ -57,6 +64,9 @@
   border-color: var(--color-primary-dark);
 
   transform: translateY(-1px);
+
+  box-shadow:
+    0 9px 20px rgba(91, 61, 245, 0.22);
 }
 
 .botonFiltros {
@@ -67,12 +77,15 @@
 }
 
 .botonFiltros:hover {
-  border-color: #cbd5e1;
-  background: #f8fafc;
+  border-color: var(--color-border-strong);
+
+  background: var(--color-surface-soft);
+
+  transform: translateY(-1px);
 }
 
 .panelDesplegable {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .seccionTareas {
@@ -85,6 +98,7 @@
 
 .tituloLista h2 {
   font-size: 20px;
+  color: var(--color-text);
 }
 
 .tituloLista p {
@@ -96,32 +110,41 @@
 
 .lista {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 14px;
 }
 
+@media (min-width: 1280px) {
+  .lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .vacio {
-  padding: 56px 24px;
+  padding: 58px 24px;
 
   text-align: center;
 
   background: var(--color-surface);
 
-  border: 1px dashed var(--color-border);
-  border-radius: 16px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-sm);
 }
 
 .iconoVacio {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
 
   margin: 0 auto 14px;
 
   display: grid;
   place-items: center;
 
-  border-radius: 50%;
+  border-radius: 15px;
 
-  background: #eef2ff;
+  background: var(--color-primary-soft);
   color: var(--color-primary);
 
   font-size: 22px;
@@ -130,6 +153,7 @@
 
 .vacio h3 {
   margin-bottom: 6px;
+  color: var(--color-text);
 }
 
 .vacio p {

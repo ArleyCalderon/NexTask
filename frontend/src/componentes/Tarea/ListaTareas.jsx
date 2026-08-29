@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import useTareas from '../../hooks/useTareas';
 import useEtiquetas from '../../hooks/useEtiquetas';
-
+import ResumenTareas from './ResumenTareas';
 import Cargando from '../Comunes/Cargando';
 import MensajeError from '../Comunes/MensajeError';
-
+import { useOutletContext } from 'react-router-dom';
 import ItemTarea from './ItemTarea';
 import FormularioTarea from './FormularioTarea';
 import FiltroTareas from './FiltroTareas';
@@ -13,6 +13,11 @@ import FiltroTareas from './FiltroTareas';
 import estilos from './ListaTareas.module.css';
 
 function ListaTareas() {
+  const {
+  estadisticas,
+  cargandoEstadisticas,
+} = useOutletContext();
+
   const [filtros, setFiltros] = useState({});
 
   const [mostrarFormulario, setMostrarFormulario] =
@@ -56,6 +61,7 @@ function ListaTareas() {
           </p>
         </div>
 
+
         <div className={estilos.accionesEncabezado}>
           <button
             type="button"
@@ -82,6 +88,10 @@ function ListaTareas() {
           </button>
         </div>
       </div>
+              <ResumenTareas
+          estadisticas={estadisticas}
+          cargando={cargandoEstadisticas}
+        />
 
       {mostrarFormulario && (
         <div className={estilos.panelDesplegable}>

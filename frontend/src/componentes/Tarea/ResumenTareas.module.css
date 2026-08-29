@@ -1,0 +1,186 @@
+.resumen {
+  margin-bottom: 28px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.tarjeta {
+  --acento: var(--color-primary);
+
+  position: relative;
+
+  min-height: 130px;
+  padding: 18px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  overflow: hidden;
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tarjeta::after {
+  content: '';
+
+  position: absolute;
+
+  right: -28px;
+  bottom: -35px;
+
+  width: 110px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--acento) 12%,
+      transparent
+    );
+
+  filter: blur(3px);
+
+  pointer-events: none;
+}
+
+.tarjeta:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--acento) 30%,
+      var(--color-border)
+    );
+
+  box-shadow: var(--shadow-md);
+}
+
+.icono {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--acento) 13%,
+      var(--color-surface)
+    );
+
+  color: var(--acento);
+}
+
+.contenido {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  color: var(--color-text-soft);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.valor {
+  margin: 3px 0;
+
+  color: var(--color-text);
+
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.descripcion {
+  color: var(--color-text-soft);
+  font-size: 11px;
+}
+
+.total {
+  --acento: #765cff;
+}
+
+.pendientes {
+  --acento: #f59e0b;
+}
+
+.completadas {
+  --acento: #22c55e;
+}
+
+.vencidas {
+  --acento: #ef4444;
+}
+
+@media (max-width: 1150px) {
+  .resumen {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .resumen {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .tarjeta {
+    min-height: 105px;
+
+    padding: 13px;
+
+    gap: 9px;
+  }
+
+  .icono {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+  }
+
+  .titulo {
+    font-size: 10px;
+  }
+
+  .valor {
+    margin: 2px 0;
+
+    font-size: 22px;
+  }
+
+  .descripcion {
+    font-size: 9px;
+  }
+}

@@ -2,10 +2,15 @@
   padding: 24px;
 
   background: var(--color-surface);
+
   border: 1px solid var(--color-border);
   border-radius: 16px;
 
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .encabezado {
@@ -14,6 +19,8 @@
 
 .encabezado h2 {
   margin-bottom: 4px;
+
+  color: var(--color-text);
   font-size: 19px;
 }
 
@@ -24,7 +31,10 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
   gap: 14px;
 }
 
@@ -39,35 +49,54 @@
 }
 
 .campo label {
-  color: #475569;
+  color: var(--color-text-soft);
+
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .campo input,
 .campo select {
   width: 100%;
+
   padding: 9px 11px;
 
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 10px;
 
-  background: white;
+  background: var(--color-input);
   color: var(--color-text);
 
   outline: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.campo input::placeholder {
+  color: var(--color-text-muted);
 }
 
 .campo input:focus,
 .campo select:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--color-primary) 14%,
+      transparent
+    );
 }
 
 .campo select:disabled {
   cursor: not-allowed;
-  background: #f8fafc;
-  color: #94a3b8;
+
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
 }
 
 .acciones {
@@ -81,35 +110,49 @@
 .acciones button {
   padding: 9px 15px;
 
-  border-radius: 9px;
+  border-radius: 10px;
 
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 650;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .aplicar {
-  border: none;
+  border: 1px solid var(--color-primary);
+
   background: var(--color-primary);
-  color: white;
+  color: #ffffff;
 }
 
 .aplicar:hover {
   background: var(--color-primary-dark);
+
+  border-color: var(--color-primary-dark);
+
+  transform: translateY(-1px);
 }
 
 .limpiar {
   border: 1px solid var(--color-border);
-  background: white;
+
+  background: var(--color-surface-soft);
   color: var(--color-text);
 }
 
 .limpiar:hover {
-  background: #f8fafc;
+  border-color: var(--color-border-strong);
+
+  transform: translateY(-1px);
 }
 
 @media (max-width: 1000px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 }
 

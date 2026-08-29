@@ -1,7 +1,17 @@
 import { useState } from 'react';
 
+import {
+  Folder,
+  Pencil,
+  Plus,
+  Trash2,
+  X,
+} from 'lucide-react';
+
 import useCategorias from '../../hooks/useCategorias';
+
 import FormularioCategoria from './FormularioCategoria';
+
 import Cargando from '../Comunes/Cargando';
 import MensajeError from '../Comunes/MensajeError';
 
@@ -77,9 +87,17 @@ function ListaCategorias() {
               )
             }
           >
-            {mostrarFormulario
-              ? 'Cancelar'
-              : '+ Nueva categoría'}
+            {mostrarFormulario ? (
+              <>
+                <X size={16} />
+                Cancelar
+              </>
+            ) : (
+              <>
+                <Plus size={16} />
+                Nueva categoría
+              </>
+            )}
           </button>
         )}
       </div>
@@ -120,14 +138,13 @@ function ListaCategorias() {
         {categorias.length === 0 ? (
           <div className={estilos.vacio}>
             <div className={estilos.iconoVacio}>
-              ▦
+              <Folder size={22} />
             </div>
 
             <h3>No tienes categorías</h3>
 
             <p>
-              Crea una para empezar a organizar tus
-              tareas.
+              Crea una para empezar a organizar tus tareas.
             </p>
           </div>
         ) : (
@@ -136,22 +153,40 @@ function ListaCategorias() {
               <article
                 key={categoria.id}
                 className={estilos.categoria}
+                style={{
+                  '--categoria-color':
+                    categoria.color,
+                }}
               >
+                <div className={estilos.acento} />
+
                 <div className={estilos.info}>
-                  <span
-                    className={estilos.color}
-                    style={{
-                      backgroundColor:
-                        categoria.color,
-                    }}
-                  />
+                  <div
+                    className={
+                      estilos.iconoCategoria
+                    }
+                  >
+                    <Folder size={20} />
+                  </div>
 
                   <div>
                     <h3>{categoria.nombre}</h3>
 
-                    <span className={estilos.codigoColor}>
-                      {categoria.color}
-                    </span>
+                    <div
+                      className={
+                        estilos.detalleColor
+                      }
+                    >
+                      <span
+                        className={
+                          estilos.muestraColor
+                        }
+                      />
+
+                      <span>
+                        {categoria.color}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -163,6 +198,7 @@ function ListaCategorias() {
                       manejarEditar(categoria)
                     }
                   >
+                    <Pencil size={14} />
                     Editar
                   </button>
 
@@ -173,6 +209,7 @@ function ListaCategorias() {
                       manejarEliminar(categoria)
                     }
                   >
+                    <Trash2 size={14} />
                     Eliminar
                   </button>
                 </div>

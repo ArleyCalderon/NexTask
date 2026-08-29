@@ -1,5 +1,13 @@
 import { useState } from 'react';
+
+import {
+  Palette,
+  Save,
+  X,
+} from 'lucide-react';
+
 import MensajeError from '../Comunes/MensajeError';
+
 import estilos from './FormularioCategoria.module.css';
 
 function FormularioCategoria({
@@ -19,7 +27,8 @@ function FormularioCategoria({
   );
 
   const [error, setError] = useState('');
-  const [enviando, setEnviando] = useState(false);
+  const [enviando, setEnviando] =
+    useState(false);
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
@@ -50,7 +59,9 @@ function FormularioCategoria({
       setError(
         error.response?.data?.error ||
         `No se pudo ${
-          esEdicion ? 'actualizar' : 'crear'
+          esEdicion
+            ? 'actualizar'
+            : 'crear'
         } la categoría`
       );
     } finally {
@@ -59,94 +70,115 @@ function FormularioCategoria({
   };
 
   return (
-  <form
-    onSubmit={manejarSubmit}
-    className={estilos.formulario}
-  >
-    <div className={estilos.encabezado}>
-      <h2>
-        {esEdicion
-          ? 'Editar categoría'
-          : 'Nueva categoría'}
-      </h2>
+    <form
+      onSubmit={manejarSubmit}
+      className={estilos.formulario}
+    >
+      <div className={estilos.encabezado}>
+        <div className={estilos.iconoEncabezado}>
+          <Palette size={19} />
+        </div>
 
-      <p>
-        {esEdicion
-          ? 'Modifica el nombre o color de la categoría.'
-          : 'Crea un grupo para organizar tus tareas.'}
-      </p>
-    </div>
+        <div>
+          <h2>
+            {esEdicion
+              ? 'Editar categoría'
+              : 'Nueva categoría'}
+          </h2>
 
-    <div className={estilos.campos}>
-      <div className={estilos.campoNombre}>
-        <label
-          htmlFor={`nombreCategoria-${categoriaInicial?.id || 'nueva'}`}
-        >
-          Nombre
-        </label>
-
-        <input
-          id={`nombreCategoria-${categoriaInicial?.id || 'nueva'}`}
-          type="text"
-          value={nombre}
-          onChange={(e) =>
-            setNombre(e.target.value)
-          }
-          placeholder="Ej. Universidad"
-          required
-        />
-      </div>
-
-      <div className={estilos.campoColor}>
-        <label
-          htmlFor={`colorCategoria-${categoriaInicial?.id || 'nueva'}`}
-        >
-          Color
-        </label>
-
-        <div className={estilos.selectorColor}>
-          <input
-            id={`colorCategoria-${categoriaInicial?.id || 'nueva'}`}
-            type="color"
-            value={color}
-            onChange={(e) =>
-              setColor(e.target.value)
-            }
-          />
-
-          <span>{color}</span>
+          <p>
+            {esEdicion
+              ? 'Modifica el nombre o color de la categoría.'
+              : 'Crea un grupo para organizar tus tareas.'}
+          </p>
         </div>
       </div>
-    </div>
 
-    <MensajeError mensaje={error} />
+      <div className={estilos.campos}>
+        <div className={estilos.campoNombre}>
+          <label
+            htmlFor={`nombreCategoria-${
+              categoriaInicial?.id ||
+              'nueva'
+            }`}
+          >
+            Nombre
+          </label>
 
-    <div className={estilos.acciones}>
-      {esEdicion && (
+          <input
+            id={`nombreCategoria-${
+              categoriaInicial?.id ||
+              'nueva'
+            }`}
+            type="text"
+            value={nombre}
+            onChange={(e) =>
+              setNombre(e.target.value)
+            }
+            placeholder="Ej. Universidad"
+            required
+          />
+        </div>
+
+        <div className={estilos.campoColor}>
+          <label
+            htmlFor={`colorCategoria-${
+              categoriaInicial?.id ||
+              'nueva'
+            }`}
+          >
+            Color
+          </label>
+
+          <div className={estilos.selectorColor}>
+            <input
+              id={`colorCategoria-${
+                categoriaInicial?.id ||
+                'nueva'
+              }`}
+              type="color"
+              value={color}
+              onChange={(e) =>
+                setColor(e.target.value)
+              }
+            />
+
+            <span>{color}</span>
+          </div>
+        </div>
+      </div>
+
+      <MensajeError mensaje={error} />
+
+      <div className={estilos.acciones}>
+        {esEdicion && (
+          <button
+            type="button"
+            className={estilos.cancelar}
+            onClick={onCancelar}
+            disabled={enviando}
+          >
+            <X size={15} />
+            Cancelar
+          </button>
+        )}
+
         <button
-          type="button"
-          className={estilos.cancelar}
-          onClick={onCancelar}
+          type="submit"
+          className={estilos.guardar}
           disabled={enviando}
         >
-          Cancelar
-        </button>
-      )}
+          <Save size={15} />
 
-      <button
-        type="submit"
-        className={estilos.guardar}
-        disabled={enviando}
-      >
-        {enviando
-          ? 'Guardando...'
-          : esEdicion
-            ? 'Guardar cambios'
-            : 'Crear categoría'}
-      </button>
-    </div>
-  </form>
-);
+          {enviando
+            ? 'Guardando...'
+            : esEdicion
+              ? 'Guardar cambios'
+              : 'Crear categoría'}
+        </button>
+      </div>
+    </form>
+  );
 }
 
 export default FormularioCategoria;

@@ -1,11 +1,19 @@
 import { useState } from 'react';
+
+import {
+  Plus,
+  Tag,
+} from 'lucide-react';
+
 import MensajeError from '../Comunes/MensajeError';
+
 import estilos from './FormularioEtiqueta.module.css';
 
 function FormularioEtiqueta({ onCrear }) {
   const [nombre, setNombre] = useState('');
   const [error, setError] = useState('');
-  const [enviando, setEnviando] = useState(false);
+  const [enviando, setEnviando] =
+    useState(false);
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
@@ -34,50 +42,58 @@ function FormularioEtiqueta({ onCrear }) {
     }
   };
 
-return (
-  <form
-    onSubmit={manejarSubmit}
-    className={estilos.formulario}
-  >
-    <div>
-      <h2>Nueva etiqueta</h2>
+  return (
+    <form
+      onSubmit={manejarSubmit}
+      className={estilos.formulario}
+    >
+      <div className={estilos.encabezado}>
+        <div className={estilos.iconoEncabezado}>
+          <Tag size={19} />
+        </div>
 
-      <p>
-        Crea una etiqueta para clasificar tus tareas.
-      </p>
-    </div>
+        <div>
+          <h2>Nueva etiqueta</h2>
 
-    <div className={estilos.contenido}>
-      <div className={estilos.campo}>
-        <label htmlFor="nombreEtiqueta">
-          Nombre
-        </label>
-
-        <input
-          id="nombreEtiqueta"
-          type="text"
-          value={nombre}
-          onChange={(e) =>
-            setNombre(e.target.value)
-          }
-          placeholder="Ej. importante"
-          required
-        />
+          <p>
+            Crea una etiqueta para clasificar tus tareas.
+          </p>
+        </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={enviando}
-      >
-        {enviando
-          ? 'Creando...'
-          : 'Crear etiqueta'}
-      </button>
-    </div>
+      <div className={estilos.contenido}>
+        <div className={estilos.campo}>
+          <label htmlFor="nombreEtiqueta">
+            Nombre
+          </label>
 
-    <MensajeError mensaje={error} />
-  </form>
-);
+          <input
+            id="nombreEtiqueta"
+            type="text"
+            value={nombre}
+            onChange={(e) =>
+              setNombre(e.target.value)
+            }
+            placeholder="Ej. importante"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={enviando}
+        >
+          <Plus size={15} />
+
+          {enviando
+            ? 'Creando...'
+            : 'Crear etiqueta'}
+        </button>
+      </div>
+
+      <MensajeError mensaje={error} />
+    </form>
+  );
 }
 
 export default FormularioEtiqueta;

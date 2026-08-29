@@ -1,7 +1,16 @@
 import { useState } from 'react';
 
+import {
+  Plus,
+  Tag,
+  Tags,
+  X,
+} from 'lucide-react';
+
 import useEtiquetas from '../../hooks/useEtiquetas';
+
 import FormularioEtiqueta from './FormularioEtiqueta';
+
 import Cargando from '../Comunes/Cargando';
 import MensajeError from '../Comunes/MensajeError';
 
@@ -50,9 +59,17 @@ function ListaEtiquetas() {
             )
           }
         >
-          {mostrarFormulario
-            ? 'Cancelar'
-            : '+ Nueva etiqueta'}
+          {mostrarFormulario ? (
+            <>
+              <X size={16} />
+              Cancelar
+            </>
+          ) : (
+            <>
+              <Plus size={16} />
+              Nueva etiqueta
+            </>
+          )}
         </button>
       </div>
 
@@ -80,26 +97,29 @@ function ListaEtiquetas() {
         {etiquetas.length === 0 ? (
           <div className={estilos.vacio}>
             <div className={estilos.iconoVacio}>
-              #
+              <Tags size={22} />
             </div>
 
             <h3>No tienes etiquetas</h3>
 
             <p>
-              Crea una etiqueta para clasificar tus
-              tareas.
+              Crea una etiqueta para clasificar tus tareas.
             </p>
           </div>
         ) : (
-          <div className={estilos.etiquetas}>
-            {etiquetas.map((etiqueta) => (
-              <span
-                key={etiqueta.id}
-                className={estilos.etiqueta}
-              >
-                #{etiqueta.nombre}
-              </span>
-            ))}
+          <div className={estilos.contenedor}>
+            <div className={estilos.etiquetas}>
+              {etiquetas.map((etiqueta) => (
+                <span
+                  key={etiqueta.id}
+                  className={estilos.etiqueta}
+                >
+                  <Tag size={13} />
+
+                  #{etiqueta.nombre}
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </section>

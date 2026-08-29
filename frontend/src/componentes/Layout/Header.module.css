@@ -1,5 +1,6 @@
 .header {
   min-height: 76px;
+
   padding: 14px 32px;
 
   display: flex;
@@ -8,7 +9,13 @@
   gap: 24px;
 
   background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+
+  border-bottom:
+    1px solid var(--color-border);
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .header h2 {
@@ -18,8 +25,54 @@
 
 .subtitulo {
   margin-bottom: 2px;
+
   color: var(--color-text-soft);
   font-size: 12px;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.botonTema {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border:
+    1px solid var(--color-border);
+
+  border-radius: 12px;
+
+  background:
+    var(--color-surface-soft);
+
+  color: var(--color-text-soft);
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.botonTema:hover {
+  background:
+    var(--color-primary-soft);
+
+  border-color:
+    var(--color-primary);
+
+  color:
+    var(--color-primary);
+
+  transform: translateY(-1px);
 }
 
 .usuario {
@@ -35,8 +88,10 @@
 }
 
 .nombre {
+  color: var(--color-text);
+
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .descripcion {
@@ -47,13 +102,17 @@
 .avatar {
   width: 40px;
   height: 40px;
+
   border-radius: 50%;
 
   display: grid;
   place-items: center;
 
-  background: #eef2ff;
-  color: var(--color-primary);
+  background:
+    var(--color-primary-soft);
+
+  color:
+    var(--color-primary);
 
   font-size: 15px;
   font-weight: 700;
@@ -71,5 +130,14 @@
 
   .header h2 {
     font-size: 18px;
+  }
+
+  .acciones {
+    gap: 10px;
+  }
+
+  .botonTema {
+    width: 38px;
+    height: 38px;
   }
 }
