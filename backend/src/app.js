@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 
 const pool = require('./config/db');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 
@@ -48,6 +49,9 @@ app.get('/api/health', async (req, res, next) => {
 });
 
 
+app.use('/api/auth', authRoutes);
+
+
 app.use((req, res) => {
   res.status(404).json({
     error: 'Ruta no encontrada',
@@ -56,10 +60,21 @@ app.use((req, res) => {
 
 
 app.use((error, req, res, next) => {
-  console.error(error);
+  const statusCode = error.statusCode || 500;
 
-  res.status(500).json({
-    error: 'Error interno del servidor',
+  if (statusCode >= 500) {
+    console.error(error);
+  }
+
+  res.status(statusCode).json({
+    error:
+      statusCode === 500
+        ? 'Error interno del servidor'
+        : error.message,
+
+    ...(error.details && {
+      detalles: error.details,
+    }),
   });
 });
 
