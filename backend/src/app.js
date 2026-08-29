@@ -7,6 +7,8 @@ const rateLimit = require('express-rate-limit');
 const pool = require('./config/db');
 const authRoutes = require('./routes/auth.routes');
 const tareasRoutes = require('./routes/tareas.routes');
+const categoriasRoutes = require('./routes/categorias.routes');
+const etiquetasRoutes = require('./routes/etiquetas.routes');
 
 const app = express();
 
@@ -53,6 +55,8 @@ app.get('/api/health', async (req, res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tareas', tareasRoutes);
+app.use('/api/categorias', categoriasRoutes);
+app.use('/api/etiquetas', etiquetasRoutes);
 
 
 app.use((req, res) => {
