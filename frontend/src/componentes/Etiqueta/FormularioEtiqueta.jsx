@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MensajeError from '../Comunes/MensajeError';
 
 function FormularioEtiqueta({ onCrear }) {
   const [nombre, setNombre] = useState('');
@@ -50,7 +51,7 @@ function FormularioEtiqueta({ onCrear }) {
         />
       </div>
 
-      {error && <p>{error}</p>}
+      <MensajeError mensaje={error} />
 
       <button
         type="submit"

@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContextoAuth } from '../../contexto/ContextoAuth';
+import MensajeError from '../Comunes/MensajeError';
 
 function FormularioLogin() {
   const [email, setEmail] = useState('');
@@ -58,7 +59,7 @@ function FormularioLogin() {
           />
         </div>
 
-        {error && <p>{error}</p>}
+        <MensajeError mensaje={error} />
 
         <button type="submit" disabled={enviando}>
           {enviando ? 'Ingresando...' : 'Ingresar'}

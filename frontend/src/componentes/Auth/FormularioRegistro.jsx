@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContextoAuth } from '../../contexto/ContextoAuth';
+import MensajeError from '../Comunes/MensajeError';
 
 function FormularioRegistro() {
   const [nombre, setNombre] = useState('');
@@ -69,7 +70,7 @@ function FormularioRegistro() {
           />
         </div>
 
-        {error && <p>{error}</p>}
+        <MensajeError mensaje={error} />
 
         <button type="submit" disabled={enviando}>
           {enviando ? 'Creando cuenta...' : 'Registrarse'}

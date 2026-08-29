@@ -2,10 +2,12 @@ import { useState } from 'react';
 
 import useTareas from '../../hooks/useTareas';
 import useEtiquetas from '../../hooks/useEtiquetas';
-
+import Cargando from '../Comunes/Cargando';
+import MensajeError from '../Comunes/MensajeError';
 import ItemTarea from './ItemTarea';
 import FormularioTarea from './FormularioTarea';
 import FiltroTareas from './FiltroTareas';
+
 
 function ListaTareas() {
   const [filtros, setFiltros] = useState({});
@@ -42,16 +44,11 @@ function ListaTareas() {
         cargandoEtiquetas={cargandoEtiquetas}
       />
 
-      {errorEtiquetas && (
-        <p>{errorEtiquetas}</p>
-      )}
-
-      {error && (
-        <p>{error}</p>
-      )}
+      <MensajeError mensaje={errorEtiquetas} />
+      <MensajeError mensaje={error} />
 
       {cargando ? (
-        <p>Actualizando tareas...</p>
+      <Cargando mensaje="Actualizando tareas..." />
       ) : tareas.length === 0 ? (
         <p>No se encontraron tareas.</p>
       ) : (

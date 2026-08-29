@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
+import MensajeError from '../Comunes/MensajeError';
 
 function FiltroTareas({
   onFiltrar,
@@ -309,13 +310,8 @@ function FiltroTareas({
         </select>
       </div>
 
-      {errorCategorias && (
-        <p>{errorCategorias}</p>
-      )}
-
-      {errorFiltro && (
-        <p>{errorFiltro}</p>
-      )}
+        <MensajeError mensaje={errorCategorias} />
+        <MensajeError mensaje={errorFiltro} />
 
       <button type="submit">
         Aplicar filtros

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MensajeError from '../Comunes/MensajeError';
 
 function FormularioCategoria({
   onCrear,
@@ -95,7 +96,7 @@ function FormularioCategoria({
         />
       </div>
 
-      {error && <p>{error}</p>}
+      <MensajeError mensaje={error} />
 
       <button
         type="submit"

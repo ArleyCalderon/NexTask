@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
+import MensajeError from '../Comunes/MensajeError';
 
 
 function FormularioTarea({
@@ -187,8 +188,8 @@ function FormularioTarea({
         />
       </div>
 
-      {errorCategorias && <p>{errorCategorias}</p>}
-      {error && <p>{error}</p>}
+      <MensajeError mensaje={errorCategorias} />
+      <MensajeError mensaje={error} />
 
       <button
         type="submit"

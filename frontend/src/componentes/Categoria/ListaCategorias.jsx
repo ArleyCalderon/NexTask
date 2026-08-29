@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import useCategorias from '../../hooks/useCategorias';
 import FormularioCategoria from './FormularioCategoria';
+import Cargando from '../Comunes/Cargando';
+import MensajeError from '../Comunes/MensajeError';
 
 function ListaCategorias() {
   const [categoriaEditando, setCategoriaEditando] =
@@ -31,9 +33,9 @@ function ListaCategorias() {
     }
   };
 
-  if (cargandoCategorias) {
-    return <p>Cargando categorías...</p>;
-  }
+    if (cargandoCategorias) {
+    return <Cargando mensaje="Cargando categorías..." />;
+    }
 
   return (
     <div>
@@ -53,9 +55,7 @@ function ListaCategorias() {
         />
       )}
 
-      {errorCategorias && (
-        <p>{errorCategorias}</p>
-      )}
+    <MensajeError mensaje={errorCategorias} />
 
       {categorias.length === 0 ? (
         <p>No tienes categorías.</p>

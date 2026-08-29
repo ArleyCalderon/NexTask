@@ -1,5 +1,7 @@
 import useEtiquetas from '../../hooks/useEtiquetas';
 import FormularioEtiqueta from './FormularioEtiqueta';
+import Cargando from '../Comunes/Cargando';
+import MensajeError from '../Comunes/MensajeError';
 
 function ListaEtiquetas() {
   const {
@@ -9,9 +11,9 @@ function ListaEtiquetas() {
     crearEtiqueta,
   } = useEtiquetas();
 
-  if (cargandoEtiquetas) {
-    return <p>Cargando etiquetas...</p>;
-  }
+    if (cargandoEtiquetas) {
+    return <Cargando mensaje="Cargando etiquetas..." />;
+    }
 
   return (
     <div>
@@ -21,9 +23,7 @@ function ListaEtiquetas() {
         onCrear={crearEtiqueta}
       />
 
-      {errorEtiquetas && (
-        <p>{errorEtiquetas}</p>
-      )}
+    <MensajeError mensaje={errorEtiquetas} />
 
       {etiquetas.length === 0 ? (
         <p>No tienes etiquetas.</p>
