@@ -1,0 +1,108 @@
+name: NexTask CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nextask-production
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Validar aplicación
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Instalar dependencias backend
+        working-directory: backend
+        run: npm ci
+
+      - name: Validar sintaxis backend
+        working-directory: backend
+        run: |
+          node --check server.js
+          find src -type f -name "*.js" -print0 | xargs -0 -n1 node --check
+
+      - name: Instalar dependencias frontend
+        working-directory: frontend
+        run: npm ci
+
+      - name: Ejecutar lint frontend
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Compilar frontend
+        working-directory: frontend
+        run: npm run build
+
+  deploy:
+    name: Desplegar en AWS Lightsail
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+
+    steps:
+      - name: Preparar conexión SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Desplegar aplicación
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -o BatchMode=yes \
+            "$VPS_USER@$VPS_HOST" << 'EOF'
+
+            set -e
+
+            cd ~/apps/NexTask
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            docker compose up -d --build --remove-orphans
+
+            docker compose ps
+          EOF
+
+      - name: Verificar aplicación
+        run: |
+          for intento in {1..10}; do
+            if curl -fsS "https://$VPS_HOST/api/health"; then
+              echo ""
+              echo "NexTask desplegado correctamente ✅"
+              exit 0
+            fi
+
+            echo "Esperando aplicación... intento $intento/10"
+            sleep 3
+          done
+
+          echo "La aplicación no respondió correctamente ❌"
+          exit 1
