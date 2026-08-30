@@ -1,5 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
-
+import { Navigate, Route, Routes } from 'react-router-dom';
 import FormularioLogin from './componentes/Auth/FormularioLogin';
 import FormularioRegistro from './componentes/Auth/FormularioRegistro';
 import RutaProtegida from './componentes/Auth/RutaProtegida';
@@ -45,6 +44,10 @@ function App() {
           element={<ListaEtiquetas />}
         />
       </Route>
+	<Route
+	  path="/"
+	  element={<Navigate to="/login" replace />}
+	/>
     </Routes>
   );
 }
