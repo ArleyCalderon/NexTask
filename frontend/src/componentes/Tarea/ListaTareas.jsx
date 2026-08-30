@@ -200,7 +200,7 @@ function ListaTareas() {
 
           <p>
             Crea, filtra y administra tus actividades
-            desde un solo lugar.
+            desde cualquier lugar.
           </p>
         </div>
 
