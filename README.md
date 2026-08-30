@@ -91,6 +91,15 @@ Los atajos de letras no se ejecutan mientras el usuario está escribiendo dentro
 - Triggers para actualización automática de timestamps
 - Seed reproducible con datos útiles para pruebas funcionales y analíticas
 
+### Infraestructura y despliegue
+
+- Docker
+- Docker Compose
+- Nginx
+- AWS Lightsail
+- HTTPS con Let's Encrypt
+- GitHub Actions para CI/CD
+
 ---
 
 ## Arquitectura general
@@ -138,6 +147,10 @@ El backend se organiza por responsabilidades. Las rutas definen el endpoint y su
 
 ```text
 NexTask/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+│
 ├── backend/
 │   ├── src/
 │   │   ├── config/
@@ -148,6 +161,8 @@ NexTask/
 │   │   ├── utils/
 │   │   ├── validators/
 │   │   └── app.js
+│   ├── .dockerignore
+│   ├── Dockerfile
 │   ├── server.js
 │   ├── .env.example
 │   ├── package.json
@@ -166,6 +181,9 @@ NexTask/
 │   │   ├── hooks/
 │   │   ├── servicios/
 │   │   └── utils/
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── nginx.conf
 │   ├── .env.example
 │   ├── package.json
 │   └── package-lock.json
@@ -175,6 +193,10 @@ NexTask/
 │   └── seed.sql
 │
 ├── docs/
+│   ├── API.md
+│   └── consultas-bi.sql
+│
+├── docker-compose.yml
 └── README.md
 ```
 
@@ -300,7 +322,7 @@ Los comandos de PostgreSQL asumen que `psql` está disponible desde la terminal.
 ## 1. Clonar el repositorio
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/ArleyCalderon/NexTask.git
 cd NexTask
 ```
 
@@ -815,18 +837,179 @@ psql -v ON_ERROR_STOP=1 -U nextask_app -d nextask -f database/seed.sql
 
 ---
 
+---
+
+# Documentación adicional
+
+La documentación técnica complementaria del proyecto se encuentra en la carpeta `docs/`.
+
+## Documentación de la API
+
+La descripción detallada de endpoints, parámetros, cuerpos de petición, respuestas y códigos HTTP está disponible en:
+
+[`docs/API.md`](docs/API.md)
+
+## Consultas de Inteligencia de Negocio
+
+Las 10 consultas SQL solicitadas en el reto, junto con su pregunta de negocio, formato de salida esperado y ejemplos de resultados, están disponibles en:
+
+[`docs/consultas-bi.sql`](docs/consultas-bi.sql)
+
+---
+
+# Datos de demostración
+
+El archivo `database/seed.sql` incluye usuarios, categorías, etiquetas y tareas preparadas para probar las distintas funcionalidades de NexTask.
+
+Usuarios demo disponibles:
+
+```text
+demo@nextask.local
+ana@nextask.local
+carlos@nextask.local
+```
+
+Contraseña para las tres cuentas:
+
+```text
+Demo123!
+```
+
+> El seed está diseñado exclusivamente para desarrollo y demostración. Su ejecución reinicia los datos mediante `TRUNCATE ... RESTART IDENTITY CASCADE`.
+
+---
+
+# Despliegue
+
+NexTask cuenta con un entorno temporal de demostración desplegado en **AWS Lightsail**.
+
+## Demo pública
+
+```text
+https://52.45.175.70
+```
+
+La infraestructura de producción utilizada para la prueba técnica incluye:
+
+- Ubuntu 24.04 LTS;
+- Docker y Docker Compose;
+- PostgreSQL 17;
+- Node.js + Express para la API;
+- React compilado con Vite;
+- Nginx como servidor web y reverse proxy;
+- HTTPS mediante un certificado TLS de Let's Encrypt;
+- firewall de AWS Lightsail y UFW en el servidor.
+
+Arquitectura del despliegue:
+
+```text
+Internet
+   │
+   ▼
+AWS Lightsail
+   │
+   ▼
+Nginx :80 / :443
+   ├── React
+   │
+   └── /api
+         │
+         ▼
+    Node.js / Express :3000
+         │
+         ▼
+     PostgreSQL :5432
+```
+
+Solo Nginx publica puertos hacia Internet. El backend y PostgreSQL permanecen dentro de la red privada de Docker Compose.
+
+> La instancia y la URL de demostración fueron creadas específicamente para la evaluación técnica y pueden dejar de estar disponibles después de finalizar el proceso.
+
+---
+
+# CI/CD
+
+El repositorio incluye un pipeline de integración y despliegue continuo mediante **GitHub Actions**.
+
+El workflow se ejecuta automáticamente después de cada `push` a la rama `main`.
+
+Flujo:
+
+```text
+Push a main
+    │
+    ▼
+GitHub Actions
+    │
+    ├── Instala dependencias del backend
+    ├── Valida sintaxis del backend
+    ├── Instala dependencias del frontend
+    ├── Ejecuta lint
+    ├── Compila el frontend
+    │
+    ▼
+Deploy
+    │
+    ├── Conexión SSH con AWS Lightsail
+    ├── Sincronización con main
+    ├── Reconstrucción con Docker Compose
+    └── Health check HTTPS
+```
+
+El despliegue solamente comienza si las validaciones de CI finalizan correctamente.
+
+Workflow:
+
+[`/.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+
+---
+
+# Repositorio
+
+Código fuente:
+
+```text
+https://github.com/ArleyCalderon/NexTask
+```
+
+Clonar el proyecto:
+
+```bash
+git clone https://github.com/ArleyCalderon/NexTask.git
+cd NexTask
+```
+
+---
+
+# Estado del proyecto
+
+NexTask implementa los requerimientos funcionales principales del reto y varias funcionalidades bonus.
+
+Como cierre técnico se validaron:
+
+- autenticación JWT y rutas protegidas;
+- CRUD de tareas y categorías;
+- gestión de etiquetas;
+- filtros, búsqueda y ordenamiento;
+- aislamiento de datos por usuario;
+- validaciones y manejo de errores;
+- dashboard de estadísticas;
+- exportación CSV y JSON;
+- tema claro y oscuro;
+- diseño responsive;
+- build de producción;
+- documentación de API;
+- 10 consultas de Inteligencia de Negocio;
+- despliegue público con HTTPS;
+- pipeline CI/CD;
+- despliegue automático en AWS Lightsail;
+- health check posterior al despliegue.
+
+---
+
 # Autor
 
 **Arley Calderón**
 
-Proyecto desarrollado como solución al reto técnico Full-Stack de Fracttal.
+Proyecto desarrollado como solución al reto técnico Full-Stack de **Fracttal**.
 
----
-
-<!--
-Antes de la entrega final:
-- agregar enlace a la documentación detallada de la API cuando exista;
-- agregar enlace al archivo con las 10 consultas BI y formatos de salida;
-- revisar que las credenciales del seed final coincidan con cualquier dato demo publicado en README;
-- ejecutar npm run build y smoke test final.
--->
