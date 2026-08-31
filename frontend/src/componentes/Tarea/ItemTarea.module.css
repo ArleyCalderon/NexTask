@@ -330,6 +330,10 @@
 
   font-size: 10px;
 }
+.selectorEtiqueta select option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
 
 .selectorEtiqueta:focus-within {
   border-color: var(--color-primary);
